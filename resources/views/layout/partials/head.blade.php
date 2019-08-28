@@ -15,3 +15,5 @@
 />
 <!-- Custom styles for this template -->
 <link href="/css/app.css" rel="stylesheet" />
+<!-- Import fontawesome for nice icons. Find icons here => http://fontawesome.io/icons/ -->
+<script src="https://kit.fontawesome.com/febafebe3a.js"></script>

@@ -3,14 +3,14 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <h1>
-                Welcome to Review Analyzer
+                Hotels List
             </h1>
         </div>
     </div>
     <div class="row margin-top-20">
         <div class="col-md-12">
             <table class="table">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">Hotel name</th>
                         <th scope="col">Avg Score</th>
@@ -18,11 +18,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($hotels as $info)
-                            <td>{{info.name}}</td>
-                            <td>Avarage score</td>
-                            <td>Edit</td>
-                            <td>Delete</td>
+                    @foreach($hotels as $hotel)
+                    <tr>
+                        <td>{{ $hotel["name"] }}</td>
+                        <td>{{ $hotel["avgScore"] }}</td>
+                        <td>
+                            <a href="#"><i class="fas fa-eye"></i> View</a>
+                        </td>
+                        <td>
+                            <a href="#"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
