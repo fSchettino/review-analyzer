@@ -15,6 +15,7 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Hotel name</th>
                         <th scope="col">Avg Score</th>
                         <th scope="col" colspan="2" class="text-center">Actions</th>
@@ -23,6 +24,7 @@
                 <tbody>
                     @foreach($hotels as $hotel)
                     <tr>
+                        <td>{{ $hotel["id"] }}</td>
                         <td>{{ $hotel["name"] }}</td>
                         <td>{{ $hotel["avgScore"] }}</td>
                         <td>

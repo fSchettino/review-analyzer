@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <a
                 class="btn btn-primary float-right"
-                href="{{ url('/whitelistKey') }}"
+                href="{{ url('/blacklistKey') }}"
                 role="button"
                 >Add keyword</a
             >
@@ -20,18 +20,22 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Key</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Weight</th>
                         <th scope="col" colspan="2" class="text-center">
                             Actions
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($whiteList as $key)
+                    @foreach($whiteList as $keyword)
                     <tr>
-                        <td>{{ $key }}</td>
+                        <td>{{ $keyword["id"] }}</td>
+                        <td>{{ $keyword["name"] }}</td>
+                        <td>{{ $keyword["weight"] }}</td>
                         <td>
-                            <a href="#"><i class="fas fa-eye"></i> View</a>
+                            <a href="#"><i class="fas fa-edit"></i> Edit</a>
                         </td>
                         <td>
                             <a href="#"
