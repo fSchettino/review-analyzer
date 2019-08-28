@@ -16,6 +16,26 @@ class HotelsController extends Controller
 
         // $hotelInfo = ['name' => 'Hotel 1', 'avgScore' => '5.5',];
 
-        return view('hotels', ['hotels' => $hotels]);
+        return view('hotels.index', ['hotels' => $hotels]);
+    }
+
+    public function show($id)
+    {
+        return view('hotels.show');
+    }
+
+    public function add()
+    {
+        return view('hotels.add');
+    }
+
+    public function edit($id)
+    {
+        return view('hotels.edit');
+    }
+
+    public function delete($id)
+    {
+        return view('hotels.hotels');
     }
 }
