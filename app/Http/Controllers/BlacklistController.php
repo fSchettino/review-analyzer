@@ -8,8 +8,7 @@ class BlacklistController extends Controller
 {
     public function index()
     {
-        $blackList = ['Keyword 1', 'Keyword 2', 'Keyword 3'];
-
+        $blackList = app('App\Http\Services\BlacklistService')->getBlacklistKeywords();
         return view('keywords.blacklist.index', ['blackList' => $blackList]);
     }
 

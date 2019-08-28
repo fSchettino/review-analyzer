@@ -8,8 +8,7 @@ class WhitelistController extends Controller
 {
     public function index()
     {
-        $whiteList = ['Keyword 1', 'Keyword 2', 'Keyword 3'];
-
+        $whiteList = app('App\Http\Services\WhitelistService')->getWhitelistKeywords();
         return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
     }
 
