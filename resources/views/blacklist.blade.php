@@ -13,7 +13,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Key</th>
-                        <th scope="col" colspan="2">Actions</th>
+                        <th scope="col" colspan="2" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>

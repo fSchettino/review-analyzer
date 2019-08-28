@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <h1>
-                Keywords Whitelist
+                Hotels List
             </h1>
         </div>
     </div>
@@ -12,14 +12,16 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Key</th>
+                        <th scope="col">Hotel name</th>
+                        <th scope="col">Avg Score</th>
                         <th scope="col" colspan="2" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($whiteList as $key)
+                    @foreach($hotels as $hotel)
                     <tr>
-                        <td>{{ $key }}</td>
+                        <td>{{ $hotel["name"] }}</td>
+                        <td>{{ $hotel["avgScore"] }}</td>
                         <td>
                             <a href="#"><i class="fas fa-eye"></i> View</a>
                         </td>

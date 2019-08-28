@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', 'HotelsController@index');
+Route::View('/', 'index');
+Route::get('hotels', 'HotelsController@index');
 Route::get('whitelist', 'WhitelistController@index');
 Route::get('blacklist', 'BlacklistController@index');
