@@ -19,4 +19,4 @@ MySQL<br>
 6. Run project > "php artisan serve".
 7. Go to http://localhost:8000/.
 
-<i>If you have a web development environment installed and configured (e.g. Wamp, Lamp etc) you don't need execute "php artisan serve" command. Simply install project in your virtual host and go to http://localhost/hotel-chains-manager/public/".</i>
+<i>If you have a web development environment installed and configured (e.g. Wamp, Lamp etc) you don't need execute "php artisan serve" command. Simply install project in your virtual host and go to http://localhost/review-analyzer/public/".</i>
