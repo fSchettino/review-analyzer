@@ -11,7 +11,6 @@ class HotelsController extends Controller
     {
         $hotelsServiceClass = new HotelsService();
         $hotels = $hotelsServiceClass->getHotelsList();
-        // $hotels = app('App\Http\Services\HotelsService')->getHotelsList();
         return view('hotels.index', ['hotels' => $hotels]);
     }
 
@@ -32,6 +31,6 @@ class HotelsController extends Controller
 
     public function delete($id)
     {
-        return view('hotels.hotels');
+        return view('hotels.delete');
     }
 }
