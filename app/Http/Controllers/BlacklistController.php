@@ -19,9 +19,17 @@ class BlacklistController extends Controller
         return view('keywords.blacklist.show');
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        return view('keywords.blacklist.add');
+        if ($request->isMethod('get')) {
+            return view('keywords.blacklist.add');
+        } elseif ($request->isMethod('post')) {
+            // $request->getParam('name');
+            // $request->getParam('weight');
+            $blacklistServiceClass = new BlacklistService();
+            $blackList = $blacklistServiceClass->getBlacklistKeywords();
+            return view('keywords.blacklist.index', ['blackList' => $blackList]);
+        }
     }
 
     public function edit($id)

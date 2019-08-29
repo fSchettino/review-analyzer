@@ -19,9 +19,17 @@ class WhitelistController extends Controller
         return view('keywords.whiteList.show');
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        return view('keywords.whiteList.add');
+        if ($request->isMethod('get')) {
+            return view('keywords.whiteList.add');
+        } elseif ($request->isMethod('post')) {
+            // $request->getParam('name');
+            // $request->getParam('weight');
+            $whitelistServiceClass = new WhitelistService();
+            $whiteList = $whitelistServiceClass->getWhitelistKeywords();
+            return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
+        }
     }
 
     public function edit($id)
