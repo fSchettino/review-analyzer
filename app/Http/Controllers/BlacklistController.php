@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Services\BlacklistService;
 
 class BlacklistController extends Controller
 {
     public function index()
     {
-        $blackList = app('App\Http\Services\BlacklistService')->getBlacklistKeywords();
+        $blacklistServiceClass = new BlacklistService();
+        $blackList = $blacklistServiceClass->getBlacklistKeywords();
         return view('keywords.blacklist.index', ['blackList' => $blackList]);
     }
 

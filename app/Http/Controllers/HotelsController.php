@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-// use App\Http\Services\HotelsService as HotelsService;
+use App\Http\Services\HotelsService;
 
 class HotelsController extends Controller
 {
     public function index()
     {
-        // $HotelService = new HotelService;
-        // $hotels = app->HotelsService->getHotelsList();
-        $hotels = app('App\Http\Services\HotelsService')->getHotelsList();
+        $hotelsServiceClass = new HotelsService();
+        $hotels = $hotelsServiceClass->getHotelsList();
+        // $hotels = app('App\Http\Services\HotelsService')->getHotelsList();
         return view('hotels.index', ['hotels' => $hotels]);
     }
 

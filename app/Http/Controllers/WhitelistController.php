@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Services\WhitelistService;
 
 class WhitelistController extends Controller
 {
     public function index()
     {
-        $whiteList = app('App\Http\Services\WhitelistService')->getWhitelistKeywords();
+        $whitelistServiceClass = new WhitelistService();
+        $whiteList = $whitelistServiceClass->getWhitelistKeywords();
         return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
     }
 
