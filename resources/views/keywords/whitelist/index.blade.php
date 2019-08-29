@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <a
                 class="btn btn-primary float-right"
-                href="{{ url('/blacklistKey') }}"
+                href="{{ url('/whitelistKey') }}"
                 role="button"
                 >Add keyword</a
             >
