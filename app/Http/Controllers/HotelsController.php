@@ -19,9 +19,40 @@ class HotelsController extends Controller
         return view('hotels.show');
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        return view('hotels.add');
+        if ($request->isMethod('get')) {
+
+            // Get all availables hotel services (Dummy data)
+            $services = [
+                0 => ['id' => 1, 'name' => 'Service 1'],
+                1 => ['id' => 2, 'name' => 'Service 2'],
+                2 => ['id' => 3, 'name' => 'Service 3']
+            ];
+
+            // Get all whitelist keywords
+            $whitelistKeywords = [
+                0 => ['id' => 1, 'name' => 'Good', 'weight' => '1',],
+                1 => ['id' => 2, 'name' => 'Exelent', 'weight' => '1',],
+                2 => ['id' => 3, 'name' => 'Awesome', 'weight' => '1',]
+            ];
+
+            // Get all blacklist keywords
+            $blacklistKeywords = [
+                0 => ['id' => 1, 'name' => 'Bad', 'weight' => '1',],
+                1 => ['id' => 2, 'name' => 'Dreadful', 'weight' => '1',],
+                2 => ['id' => 3, 'name' => 'Appalling', 'weight' => '1',]
+            ];
+
+            return view('hotels.add', ['services' => $services, 'whitelistKeywords' => $whitelistKeywords, 'blacklistKeywords' => $blacklistKeywords]);
+        } elseif ($request->isMethod('post')) {
+            $hotelData = $request->all();
+            // $request->getParam('name');
+            // $request->getParam('weight');
+            $hotelServiceClass = new HotelsService();
+            $hotels = $hotelServiceClass->getHotelsList($hotelData);
+            return view('hotels.index', ['hotels' => $hotels]);
+        }
     }
 
     public function edit($id)

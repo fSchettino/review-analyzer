@@ -18,26 +18,26 @@ Route::View('/', 'index');
 Route::get('hotels', 'HotelsController@index');
 Route::get('hotel/{id}', 'HotelsController@show');
 Route::match(['get', 'post'], 'hotel', 'HotelsController@add');
-Route::put('hotel/{id}', 'HotelsController@put');
-Route::delete('hotel/{id}', 'HotelsController@delete');
+Route::match(['get', 'post'], 'hotel/edit/{id}', 'HotelsController@edit');
+Route::get('hotel/delete/{id}', 'HotelsController@delete');
 
 // Services routes
 Route::get('services', 'ServicesController@index');
 Route::get('service/{id}', 'ServicesController@show');
 Route::match(['get', 'post'], 'service', 'ServicesController@add');
-Route::put('service/{id}', 'ServicesController@put');
-Route::delete('service/{id}', 'ServicesController@delete');
+Route::match(['get', 'post'], 'service/edit/{id}', 'ServicesController@edit');
+Route::get('service/delete/{id}', 'ServicesController@delete');
 
 // Whitelist routes
 Route::get('whitelist', 'WhitelistController@index');
 Route::get('whitelistKey/{id}', 'WhitelistController@show');
 Route::match(['get', 'post'], 'whitelistKey', 'WhitelistController@add');
-Route::put('whitelistKey/{id}', 'WhitelistController@put');
-Route::delete('whitelistKey/{id}', 'WhitelistController@delete');
+Route::match(['get', 'post'], 'whitelistKey/edit/{id}', 'WhitelistController@edit');
+Route::get('whitelistKey/delete/{id}', 'WhitelistController@delete');
 
 // Blacklist routes
 Route::get('blacklist', 'BlacklistController@index');
 Route::get('blacklistKey/{id}', 'BlacklistController@show');
 Route::match(['get', 'post'], 'blacklistKey', 'BlacklistController@add');
-Route::put('blacklistKey/{id}', 'BlacklistController@put');
-Route::delete('blacklistKey/{id}', 'BlacklistController@delete');
+Route::match(['get', 'post'], 'blacklistKey/edit/{id}', 'BlacklistController@edit');
+Route::get('blacklistKey/delete/{id}', 'BlacklistController@delete');

@@ -7,12 +7,7 @@
             </h1>
         </div>
         <div class="col-md-4">
-            <a
-                class="btn btn-primary float-right"
-                href="{{ url('/blacklistKey') }}"
-                role="button"
-                >Add keyword</a
-            >
+            <a class="btn btn-outline-primary float-right" href="{{ url('/blacklistKey') }}" role="button">Add keyword</a>
         </div>
     </div>
     <div class="row margin-top-20">

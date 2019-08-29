@@ -7,7 +7,7 @@
             </h1>
         </div>
         <div class="col-md-4">
-            <a class="btn btn-primary float-right" href="{{ url('/hotel') }}" role="button">Add hotel</a>
+            <a class="btn btn-outline-primary float-right" href="{{ url('/hotel') }}" role="button">Add hotel</a>
         </div>
     </div>
     <div class="row margin-top-20">
@@ -17,6 +17,7 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Hotel name</th>
+                        <th scope="col">Reviews</th>
                         <th scope="col">Avg Score</th>
                         <th scope="col">Good keywords</th>
                         <th scope="col">Bad keywords</th>
@@ -28,6 +29,7 @@
                     <tr>
                         <td>{{ $hotel['id'] }}</td>
                         <td>{{ $hotel['name'] }}</td>
+                        <td>{{ $hotel['reviews'] }}</td>
                         <td>{{ $hotel['avgScore'] }}</td>
                         <td>
                             @foreach($hotel['goodKeywords'] as $goodKeyword)
@@ -40,7 +42,7 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="#"><i class="fas fa-eye"></i> View</a>
+                            <a href="{{ url('/hotel/1') }}"><i class="fas fa-eye"></i> View</a>
                         </td>
                         <td>
                             <a href="#"><i class="fas fa-trash-alt"></i> Delete</a>
