@@ -9,7 +9,7 @@
     </div>
     <div class="row margin-top-20">
         <div class="col-md-12 text-center">
-            <p>The software provide a score for each hotel's review and for each hotel service review.</p>
+            <p>Semantic review analisys software for hotels and hotel services.</p>
         </div>
     </div>
 </div>
