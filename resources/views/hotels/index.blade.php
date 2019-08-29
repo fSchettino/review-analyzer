@@ -18,15 +18,27 @@
                         <th scope="col">Id</th>
                         <th scope="col">Hotel name</th>
                         <th scope="col">Avg Score</th>
+                        <th scope="col">Good keywords</th>
+                        <th scope="col">Bad keywords</th>
                         <th scope="col" colspan="2" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($hotels as $hotel)
                     <tr>
-                        <td>{{ $hotel["id"] }}</td>
-                        <td>{{ $hotel["name"] }}</td>
-                        <td>{{ $hotel["avgScore"] }}</td>
+                        <td>{{ $hotel['id'] }}</td>
+                        <td>{{ $hotel['name'] }}</td>
+                        <td>{{ $hotel['avgScore'] }}</td>
+                        <td>
+                            @foreach($hotel['goodKeywords'] as $goodKeyword)
+                                <li>{{ $goodKeyword }}</li>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($hotel['badKeywords'] as $badKeyword)
+                                <li>{{ $badKeyword }}</li>
+                            @endforeach
+                        </td>
                         <td>
                             <a href="#"><i class="fas fa-eye"></i> View</a>
                         </td>

@@ -31,9 +31,9 @@
                 <tbody>
                     @foreach($blackList as $keyword)
                     <tr>
-                        <td>{{ $keyword["id"] }}</td>
-                        <td>{{ $keyword["name"] }}</td>
-                        <td>{{ $keyword["weight"] }}</td>
+                        <td>{{ $keyword['id'] }}</td>
+                        <td>{{ $keyword['name'] }}</td>
+                        <td>{{ $keyword['weight'] }}</td>
                         <td>
                             <a href="#"><i class="fas fa-edit"></i> Edit</a>
                         </td>
