@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use Illuminate\Http\Request;
+use App\Http\Models\WhitelistKeyword;
 
 class WhitelistService
 {
@@ -21,9 +22,11 @@ class WhitelistService
         return 'Whitelist Keyword Details';
     }
 
-    public function add()
+    public function add(array $whitelistKeywordData)
     {
-        return 'Whitelist Keyword Added';
+        $this->info($whitelistKeywordData);
+        return;
+        // return 'Whitelist Keyword Added';
     }
 
     public function edit($id)

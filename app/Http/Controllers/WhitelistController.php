@@ -24,10 +24,11 @@ class WhitelistController extends Controller
         if ($request->isMethod('get')) {
             return view('keywords.whiteList.add');
         } elseif ($request->isMethod('post')) {
+            $whitelistKeywordData = $request->all();
             // $request->getParam('name');
             // $request->getParam('weight');
             $whitelistServiceClass = new WhitelistService();
-            $whiteList = $whitelistServiceClass->getWhitelistKeywords();
+            $whiteList = $whitelistServiceClass->getWhitelistKeywords($whitelistKeywordData);
             return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
         }
     }
