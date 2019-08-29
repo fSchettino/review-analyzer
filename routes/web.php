@@ -21,6 +21,13 @@ Route::match(['get', 'post'], 'hotel', 'HotelsController@add');
 Route::put('hotel/{id}', 'HotelsController@put');
 Route::delete('hotel/{id}', 'HotelsController@delete');
 
+// Services routes
+Route::get('services', 'ServicesController@index');
+Route::get('service/{id}', 'ServicesController@show');
+Route::match(['get', 'post'], 'service', 'ServicesController@add');
+Route::put('service/{id}', 'ServicesController@put');
+Route::delete('service/{id}', 'ServicesController@delete');
+
 // Whitelist routes
 Route::get('whitelist', 'WhitelistController@index');
 Route::get('whitelistKey/{id}', 'WhitelistController@show');
