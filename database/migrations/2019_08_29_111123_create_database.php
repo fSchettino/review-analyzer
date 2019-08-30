@@ -21,12 +21,16 @@ class CreateDatabase extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('hotels', function (Blueprint $table) {
@@ -36,6 +40,8 @@ class CreateDatabase extends Migration
             $table->integer('rooms');
             $table->double('score', 2, 1);
             $table->timestamps();
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('hotel_reviews', function (Blueprint $table) {
@@ -49,6 +55,8 @@ class CreateDatabase extends Migration
             $table->foreign('hotel_id')
                    ->references('id')->on('hotels')
                    ->onDelete('cascade');
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('services', function (Blueprint $table) {
@@ -56,6 +64,8 @@ class CreateDatabase extends Migration
             $table->string('name', 100);
             $table->double('score', 2, 1);
             $table->timestamps();
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('service_reviews', function (Blueprint $table) {
@@ -69,6 +79,8 @@ class CreateDatabase extends Migration
             $table->foreign('service_id')
                    ->references('id')->on('services')
                    ->onDelete('cascade');
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('whitelist_keywords', function (Blueprint $table) {
@@ -76,6 +88,8 @@ class CreateDatabase extends Migration
             $table->string('name', 100);
             $table->integer('weight');
             $table->timestamps();
+
+            $table->engine = 'MyISAM';
         });
 
         Schema::create('blacklist_keywords', function (Blueprint $table) {
@@ -83,6 +97,8 @@ class CreateDatabase extends Migration
             $table->string('name', 100);
             $table->integer('weight');
             $table->timestamps();
+
+            $table->engine = 'MyISAM';
         });
 
         // junction table between hotels and services
@@ -96,6 +112,8 @@ class CreateDatabase extends Migration
                    ->references('id')->on('hotels');
             $table->foreign('service_id')
                    ->references('id')->on('services');
+
+            $table->engine = 'MyISAM';
         });
 
         // junction table between hotels and whitelist keywords
@@ -109,6 +127,8 @@ class CreateDatabase extends Migration
                    ->references('id')->on('hotels');
             $table->foreign('whitelist_keyword_id')
                    ->references('id')->on('whitelist_keywords');
+
+            $table->engine = 'MyISAM';
         });
 
         // junction table between hotels and blacklist keywords
@@ -122,6 +142,8 @@ class CreateDatabase extends Migration
                    ->references('id')->on('hotels');
             $table->foreign('blacklist_keyword_id')
                    ->references('id')->on('blacklist_keywords');
+
+            $table->engine = 'MyISAM';
         });
 
         // junction table between services and whitelist keywords
@@ -135,6 +157,8 @@ class CreateDatabase extends Migration
                    ->references('id')->on('services');
             $table->foreign('whitelist_keyword_id')
                    ->references('id')->on('whitelist_keywords');
+
+            $table->engine = 'MyISAM';
         });
 
         // junction table between services and blacklist keywords
@@ -148,6 +172,8 @@ class CreateDatabase extends Migration
                    ->references('id')->on('services');
             $table->foreign('blacklist_keyword_id')
                    ->references('id')->on('blacklist_keywords');
+
+            $table->engine = 'MyISAM';
         });
     }
 
