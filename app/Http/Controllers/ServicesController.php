@@ -7,10 +7,16 @@ use App\Http\Services\ServicesService;
 
 class ServicesController extends Controller
 {
+    protected $servicesServiceClass;
+
+    public function __construct()
+    {
+        $this->servicesServiceClass = new ServicesService();
+    }
+
     public function index()
     {
-        $servicesServiceClass = new ServicesService();
-        $services = $servicesServiceClass->getServicesList();
+        $services = $this->servicesServiceClass->getServicesList();
         return view('services.index', ['services' => $services]);
     }
 
@@ -42,8 +48,7 @@ class ServicesController extends Controller
             $serviceData = $request->all();
             // $request->getParam('name');
             // $request->getParam('weight');
-            $serviceServiceClass = new ServicesService();
-            $services = $serviceServiceClass->getServicesList($serviceData);
+            $services = $this->servicesServiceClass->getServicesList($serviceData);
             return view('services.index', ['services' => $services]);
         }
     }

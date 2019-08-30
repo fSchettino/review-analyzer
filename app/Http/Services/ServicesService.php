@@ -2,10 +2,18 @@
 
 namespace App\Http\Services;
 
+use App\Http\Models\Service;
 use Illuminate\Http\Request;
 
 class ServicesService
 {
+    protected $serviceModel;
+
+    public function __construct()
+    {
+        $this->serviceModel = new Service();
+    }
+
     public function getServicesList()
     {
         $services = [
