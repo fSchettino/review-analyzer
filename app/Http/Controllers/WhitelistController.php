@@ -7,16 +7,17 @@ use App\Http\Services\WhitelistService;
 
 class WhitelistController extends Controller
 {
-    public function index()
+    protected $whitelistServiceClass;
+
+    public function __construct()
     {
-        $whitelistServiceClass = new WhitelistService();
-        $whiteList = $whitelistServiceClass->getWhitelistKeywords();
-        return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
+        $this->whitelistServiceClass = new WhitelistService();
     }
 
-    public function show($id)
+    public function index()
     {
-        return view('keywords.whiteList.show');
+        $whiteList = $this->whitelistServiceClass->showAll();
+        return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
     }
 
     public function add(Request $request)
@@ -24,22 +25,40 @@ class WhitelistController extends Controller
         if ($request->isMethod('get')) {
             return view('keywords.whiteList.add');
         } elseif ($request->isMethod('post')) {
-            $whitelistKeywordData = $request->all();
-            // $request->getParam('name');
-            // $request->getParam('weight');
-            $whitelistServiceClass = new WhitelistService();
-            $whiteList = $whitelistServiceClass->getWhitelistKeywords($whitelistKeywordData);
-            return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
+            $insertResponse = $this->whitelistServiceClass->add($request);
+            if ($insertResponse == 'keyword inserted') {
+                $whiteList = $this->whitelistServiceClass->showAll();
+                return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
+            } else {
+                return view('error')->with('error', $deleteResponse);
+            };
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view('keywords.whiteList.edit');
+        if ($request->isMethod('get')) {
+            $whitelistKeyword = $this->whitelistServiceClass->edit($request);
+            return view('keywords.whiteList.edit')->with('whitelistKeyword', $whitelistKeyword);
+        } elseif ($request->isMethod('post')) {
+            $updateResponse = $this->whitelistServiceClass->edit($request);
+            if ($updateResponse == 'keyword updated') {
+                $whiteList = $this->whitelistServiceClass->showAll();
+                return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
+            } else {
+                return view('error')->with('error', $updateResponse);
+            };
+        }
     }
 
     public function delete($id)
     {
-        return view('keywords.whiteList.index');
+        $deleteResponse = $this->whitelistServiceClass->delete($id);
+        if ($deleteResponse == 'keyword deleted') {
+            $whiteList = $this->whitelistServiceClass->showAll();
+            return view('keywords.whiteList.index', ['whiteList' => $whiteList]);
+        } else {
+            return view('error')->with('error', $deleteResponse);
+        };
     }
 }

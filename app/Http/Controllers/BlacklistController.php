@@ -7,38 +7,58 @@ use App\Http\Services\BlacklistService;
 
 class BlacklistController extends Controller
 {
-    public function index()
+    protected $blacklistServiceClass;
+
+    public function __construct()
     {
-        $blacklistServiceClass = new BlacklistService();
-        $blackList = $blacklistServiceClass->getBlacklistKeywords();
-        return view('keywords.blacklist.index', ['blackList' => $blackList]);
+        $this->blacklistServiceClass = new BlacklistService();
     }
 
-    public function show($id)
+    public function index()
     {
-        return view('keywords.blacklist.show');
+        $blackList = $this->blacklistServiceClass->showAll();
+        return view('keywords.blackList.index', ['blackList' => $blackList]);
     }
 
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('keywords.blacklist.add');
+            return view('keywords.blackList.add');
         } elseif ($request->isMethod('post')) {
-            // $request->getParam('name');
-            // $request->getParam('weight');
-            $blacklistServiceClass = new BlacklistService();
-            $blackList = $blacklistServiceClass->getBlacklistKeywords();
-            return view('keywords.blacklist.index', ['blackList' => $blackList]);
+            $insertResponse = $this->blacklistServiceClass->add($request);
+            if ($insertResponse == 'keyword inserted') {
+                $blackList = $this->blacklistServiceClass->showAll();
+                return view('keywords.blackList.index', ['blackList' => $blackList]);
+            } else {
+                return view('error')->with('error', $deleteResponse);
+            };
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view('keywords.blacklist.edit');
+        if ($request->isMethod('get')) {
+            $blacklistKeyword = $this->blacklistServiceClass->edit($request);
+            return view('keywords.blackList.edit')->with('blacklistKeyword', $blacklistKeyword);
+        } elseif ($request->isMethod('post')) {
+            $updateResponse = $this->blacklistServiceClass->edit($request);
+            if ($updateResponse == 'keyword updated') {
+                $blackList = $this->blacklistServiceClass->showAll();
+                return view('keywords.blackList.index', ['blackList' => $blackList]);
+            } else {
+                return view('error')->with('error', $updateResponse);
+            };
+        }
     }
 
     public function delete($id)
     {
-        return view('keywords.blacklist.index');
+        $deleteResponse = $this->blacklistServiceClass->delete($id);
+        if ($deleteResponse == 'keyword deleted') {
+            $blackList = $this->blacklistServiceClass->showAll();
+            return view('keywords.blackList.index', ['blackList' => $blackList]);
+        } else {
+            return view('error')->with('error', $deleteResponse);
+        };
     }
 }

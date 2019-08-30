@@ -2,37 +2,62 @@
 
 namespace App\Http\Services;
 
+use App\Http\Models\BlacklistKeyword;
 use Illuminate\Http\Request;
 
 class BlacklistService
 {
-    public function getBlacklistKeywords()
+    protected $blacklistModel;
+
+    public function __construct()
     {
-        $blacklistKeywords = [
-            0 => ['id' => 1, 'name' => 'Bad', 'weight' => '1',],
-            1 => ['id' => 2, 'name' => 'Dreadful', 'weight' => '1',],
-            2 => ['id' => 3, 'name' => 'Appalling', 'weight' => '1',]
-        ];
+        $this->blacklistModel = new BlacklistKeyword();
+    }
+
+    public function showAll()
+    {
+        //find all blacklist keywords
+        $blacklistKeywords = $this->blacklistModel->all();
         return $blacklistKeywords;
     }
 
-    public function show($id)
+    public function add(Request $request)
     {
-        return 'Blacklist Keyword Details';
+        try {
+            $this->blacklistModel->name = $request->name;
+            $this->blacklistModel->weight = $request->weight;
+            $this->blacklistModel->save();
+            return 'keyword inserted';
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
-    public function add()
+    public function edit(Request $request)
     {
-        return 'Blacklist Keyword Added';
-    }
-
-    public function edit($id)
-    {
-        return 'Blacklist Keyword Updated';
+        if ($request->isMethod('get')) {
+            $blacklistKeyword = $this->blacklistModel->find($request->id);
+            return $blacklistKeyword;
+        } elseif ($request->isMethod('post')) {
+            try {
+                $blacklistKeyword = $this->blacklistModel->find($request->id);
+                $blacklistKeyword->name = $request->name;
+                $blacklistKeyword->weight = $request->weight;
+                $blacklistKeyword->save();
+                return 'keyword updated';
+            } catch (\Throwable $th) {
+                return $th;
+            }
+        }
     }
 
     public function delete($id)
     {
-        return 'Blacklist Keyword Deleted';
+        try {
+            $this->blacklistModel->where('id', $id)->delete();
+            return 'keyword deleted';
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 }

@@ -2,40 +2,62 @@
 
 namespace App\Http\Services;
 
-use Illuminate\Http\Request;
 use App\Http\Models\WhitelistKeyword;
+use Illuminate\Http\Request;
 
 class WhitelistService
 {
-    public function getWhitelistKeywords()
+    protected $whitelistModel;
+
+    public function __construct()
     {
-        $whitelistKeywords = [
-            0 => ['id' => 1, 'name' => 'Good', 'weight' => '1',],
-            1 => ['id' => 2, 'name' => 'Exelent', 'weight' => '1',],
-            2 => ['id' => 3, 'name' => 'Awesome', 'weight' => '1',]
-        ];
+        $this->whitelistModel = new WhitelistKeyword();
+    }
+
+    public function showAll()
+    {
+        //find all whitelist keywords
+        $whitelistKeywords = $this->whitelistModel->all();
         return $whitelistKeywords;
     }
 
-    public function show($id)
+    public function add(Request $request)
     {
-        return 'Whitelist Keyword Details';
+        try {
+            $this->whitelistModel->name = $request->name;
+            $this->whitelistModel->weight = $request->weight;
+            $this->whitelistModel->save();
+            return 'keyword inserted';
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
-    public function add(array $whitelistKeywordData)
+    public function edit(Request $request)
     {
-        $this->info($whitelistKeywordData);
-        return;
-        // return 'Whitelist Keyword Added';
-    }
-
-    public function edit($id)
-    {
-        return 'Whitelist Keyword Updated';
+        if ($request->isMethod('get')) {
+            $whitelistKeyword = $this->whitelistModel->find($request->id);
+            return $whitelistKeyword;
+        } elseif ($request->isMethod('post')) {
+            try {
+                $whitelistKeyword = $this->whitelistModel->find($request->id);
+                $whitelistKeyword->name = $request->name;
+                $whitelistKeyword->weight = $request->weight;
+                $whitelistKeyword->save();
+                return 'keyword updated';
+            } catch (\Throwable $th) {
+                return $th;
+            }
+        }
     }
 
     public function delete($id)
     {
-        return 'Whitelist Keyword Deleted';
+        try {
+            $this->whitelistModel->where('id', $id)->delete();
+            return 'keyword deleted';
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 }
