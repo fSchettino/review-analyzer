@@ -7,10 +7,16 @@ use App\Http\Services\HotelsService;
 
 class HotelsController extends Controller
 {
+    protected $hotelsServiceClass;
+
+    public function __construct()
+    {
+        $this->hotelsServiceClass = new HotelsService();
+    }
+
     public function index()
     {
-        $hotelsServiceClass = new HotelsService();
-        $hotels = $hotelsServiceClass->getHotelsList();
+        $hotels = $this->hotelsServiceClass->getHotelsList();
         return view('hotels.index', ['hotels' => $hotels]);
     }
 
@@ -47,10 +53,7 @@ class HotelsController extends Controller
             return view('hotels.add', ['services' => $services, 'whitelistKeywords' => $whitelistKeywords, 'blacklistKeywords' => $blacklistKeywords]);
         } elseif ($request->isMethod('post')) {
             $hotelData = $request->all();
-            // $request->getParam('name');
-            // $request->getParam('weight');
-            $hotelServiceClass = new HotelsService();
-            $hotels = $hotelServiceClass->getHotelsList($hotelData);
+            $hotels = $this->hotelsServiceClass->getHotelsList($hotelData);
             return view('hotels.index', ['hotels' => $hotels]);
         }
     }

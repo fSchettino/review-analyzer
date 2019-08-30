@@ -2,10 +2,18 @@
 
 namespace App\Http\Services;
 
+use App\Http\Models\Hotel;
 use Illuminate\Http\Request;
 
 class HotelsService
 {
+    protected $hotelModel;
+
+    public function __construct()
+    {
+        $this->hotelModel = new Hotel();
+    }
+
     public function getHotelsList()
     {
         $hotels = [

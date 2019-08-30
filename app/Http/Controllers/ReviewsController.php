@@ -7,10 +7,16 @@ use App\Http\Services\ReviewsService;
 
 class ReviewsController extends Controller
 {
+    protected $reviewsServiceClass;
+
+    public function __construct()
+    {
+        $this->reviewsServiceClass = new ReviewsService();
+    }
+
     public function index()
     {
-        $reviewsServiceClass = new ReviewsService();
-        $reviews = $reviewsServiceClass->getReviewsList();
+        $reviews = $this->reviewsServiceClass->getReviewsList();
         return view('hotels.show', ['reviews' => $reviews]);
     }
 
