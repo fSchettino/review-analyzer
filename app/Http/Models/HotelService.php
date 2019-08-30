@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class HotelService extends Model
 {
     protected $table = 'hotels_services';
-    public $timestamps = false;
     
     protected $fillable = [
         'id',

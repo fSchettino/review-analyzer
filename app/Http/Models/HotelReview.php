@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class HotelReview extends Model
 {
     protected $table = 'hotel_reviews';
-    public $timestamps = false;
     
     protected $fillable = [
         'id',

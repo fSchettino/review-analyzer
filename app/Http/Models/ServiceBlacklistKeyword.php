@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceBlacklistKeyword extends Model
 {
     protected $table = 'blacklist_keywords_services';
-    public $timestamps = false;
     
     protected $fillable = [
         'id',
