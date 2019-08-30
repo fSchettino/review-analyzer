@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- Start add form -->
-    <div class="row margin-top-20">
+    <div class="row margin-top-30">
         <div class="col-md-8 col-sm-12">
             <form method="post" action="{{ url('/whitelistKey') }}">
             @csrf

@@ -7,7 +7,7 @@
             </h1>
         </div>
     </div>
-    <div class="row margin-top-20">
+    <div class="row margin-top-30">
         <div class="col-md-12 text-center">
             <p>Semantic review analisys software for hotels and hotel services.</p>
         </div>

@@ -10,7 +10,7 @@
             <a class="btn btn-outline-primary float-right" href="{{ url('/blacklistKey') }}" role="button">Add keyword</a>
         </div>
     </div>
-    <div class="row margin-top-20">
+    <div class="row margin-top-30">
         <div class="col-md-12">
             <table class="table">
                 <thead class="thead-dark">
@@ -30,12 +30,10 @@
                         <td>{{ $keyword['name'] }}</td>
                         <td>{{ $keyword['weight'] }}</td>
                         <td>
-                            <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{{ url('/blacklistKey/edit', $keyword['id']) }}"><i class="fas fa-edit"></i> Edit</a>
                         </td>
                         <td>
-                            <a href="#"
-                                ><i class="fas fa-trash-alt"></i> Delete</a
-                            >
+                            <a href="{{ url('/blacklistKey/delete', $keyword['id']) }}"><i class="fas fa-trash-alt"></i> Delete</a>
                         </td>
                     </tr>
                     @endforeach

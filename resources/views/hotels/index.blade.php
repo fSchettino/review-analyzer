@@ -10,7 +10,7 @@
             <a class="btn btn-outline-primary float-right" href="{{ url('/hotel') }}" role="button">Add hotel</a>
         </div>
     </div>
-    <div class="row margin-top-20">
+    <div class="row margin-top-30">
         <div class="col-md-12">
             <table class="table">
                 <thead class="thead-dark">
@@ -42,10 +42,10 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="{{ url('/hotel/1') }}"><i class="fas fa-eye"></i> View</a>
+                            <a href="{{ url('/hotel', $hotel['id']) }}"><i class="fas fa-eye"></i> View</a>
                         </td>
                         <td>
-                            <a href="#"><i class="fas fa-trash-alt"></i> Delete</a>
+                            <a href="{{ url('/hotel/delete', $hotel['id']) }}"><i class="fas fa-trash-alt"></i> Delete</a>
                         </td>
                     </tr>
                     @endforeach

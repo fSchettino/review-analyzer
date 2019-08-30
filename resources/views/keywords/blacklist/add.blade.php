@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- Start add form -->
-    <div class="row margin-top-20">
+    <div class="row margin-top-30">
         <div class="col-md-8 col-sm-12">
             <form method="post" action="{{ url('/blacklistKey') }}">
             @csrf
@@ -22,9 +22,9 @@
                 <div class="form-group">
                     <label for="weight">Keyword weight</label>
                     <select class="form-control" id="weight" name="weight">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                        <option value="-1">-1</option>
+                        <option value="-2">-2</option>
+                        <option value="-3">-3</option>
                     </select>
                 </div>
                 <a class="btn btn-outline-primary" href="{{ url('/blacklist') }}" role="button">Cancel</a>

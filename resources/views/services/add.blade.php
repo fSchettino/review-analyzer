@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- Start add form -->
-    <div class="row margin-top-20">
+    <div class="row margin-top-30">
         <div class="col-md-8 col-sm-12">
             <form method="post" action="{{ url('/service') }}">
             @csrf
@@ -24,7 +24,7 @@
                     Select Service Review analysis keywords
                 </h3>
                 <!-- Start whitelist keywords selector -->
-                <div class="form-group col-md-4 no-sides-padding margin-top-20">
+                <div class="form-group col-md-4 no-sides-padding margin-top-30">
                     <label for="whitelistKeywords">Whitelist Keywords</label>
                     <select multiple class="form-control" id="whitelistKeywords" name="whitelistKeywords">
                     @foreach($whitelistKeywords as $whitelistKeyword)
@@ -34,7 +34,7 @@
                 </div>
                 <!-- End whitelist keywords selector -->
                 <!-- Start blacklist keywords selector -->
-                <div class="form-group col-md-4 no-sides-padding margin-top-20">
+                <div class="form-group col-md-4 no-sides-padding margin-top-30">
                     <label for="blacklistKeywords">Blacklist Keywords</label>
                     <select multiple class="form-control" id="blacklistKeywords" name="blacklistKeywords">
                     @foreach($blacklistKeywords as $blacklistKeyword)
