@@ -2,10 +2,18 @@
 
 namespace App\Http\Services;
 
+use App\Http\Models\ServiceReview;
 use Illuminate\Http\Request;
 
 class ReviewsService
 {
+    protected $serviceReviewModel;
+
+    public function __construct()
+    {
+        $this->serviceReviewModel = new ServiceReview();
+    }
+
     public function getReviewsList(int $hotel_id, int $service_id)
     {
         $hotels = [
