@@ -33,12 +33,12 @@
                         <td>{{ $service['avgScore'] }}</td>
                         <td>
                             @foreach($service['goodKeywords'] as $goodKeyword)
-                                <li>{{ $goodKeyword }}</li>
+                                <li>{{ $goodKeyword['name'] }}</li>
                             @endforeach
                         </td>
                         <td>
                             @foreach($service['badKeywords'] as $badKeyword)
-                                <li>{{ $badKeyword }}</li>
+                                <li>{{ $badKeyword['name'] }}</li>
                             @endforeach
                         </td>
                         <td>
