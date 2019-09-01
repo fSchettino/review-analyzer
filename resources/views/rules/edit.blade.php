@@ -46,7 +46,7 @@
                     <label for="positiveKeywords">Positive Keywords</label>
                     <select multiple class="form-control" id="positiveKeywords" name="positiveKeywords[]">
                     @foreach($positiveKeywords as $positiveKeyword)
-                        <option value="{{ $positiveKeyword['id'] }}" name="{{ $positiveKeyword['name'] }}">{{ $positiveKeyword['name'] }}</option>
+                        <option value="{{ $positiveKeyword['id'] }}" name="{{ $positiveKeyword['name'] }}" @foreach ($rule['keywords'] as $ruleKyeword) @if ($ruleKyeword['name'] == $positiveKeyword['name']) selected @endif @endforeach>{{ $positiveKeyword['name'] }}</option>
                     @endforeach
                     </select>
                 </div>
@@ -56,7 +56,7 @@
                     <label for="negativeKeywords">Negative Keywords</label>
                     <select multiple class="form-control" id="negativeKeywords" name="negativeKeywords[]">
                     @foreach($negativeKeywords as $negativeKeyword)
-                        <option value="{{ $negativeKeyword['id'] }}" name="{{ $negativeKeyword['name'] }}">{{ $negativeKeyword['name'] }}</option>
+                        <option value="{{ $negativeKeyword['id'] }}" name="{{ $negativeKeyword['name'] }}" @foreach ($rule['keywords'] as $ruleKyeword) @if ($ruleKyeword['name'] == $negativeKeyword['name']) selected @endif @endforeach>{{ $negativeKeyword['name'] }}</option>
                     @endforeach
                     </select>
                 </div>

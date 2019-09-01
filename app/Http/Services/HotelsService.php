@@ -29,7 +29,9 @@ class HotelsService
 
     public function show($id)
     {
-        return 'Hotel Details';
+        $hotel = $this->hotelModel->find($id);
+        $hotel->load('services')->load('rules');
+        return $hotel;
     }
 
     public function add(Request $request)
@@ -64,7 +66,7 @@ class HotelsService
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -72,6 +74,8 @@ class HotelsService
             $hotel->name = $request->name;
             $hotel->description = $request->description;
             $hotel->rooms = $request->rooms;
+            $hotel->services()->detach();
+            $hotel->rules()->detach();
             $hotel->save();
 
             $services = $request->services;
@@ -79,13 +83,13 @@ class HotelsService
 
             if (!$services==null) {
                 foreach ($services as $service) {
-                    $this->hotelModel->services()->attach($service);
+                    $hotel->services()->attach($service);
                 };
             };
 
             if (!$rules==null) {
                 foreach ($rules as $rule) {
-                    $this->hotelModel->rules()->attach($rule);
+                    $hotel->rules()->attach($rule);
                 };
             };
             DB::commit();

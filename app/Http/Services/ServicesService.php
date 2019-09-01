@@ -24,11 +24,6 @@ class ServicesService
         return $services;
     }
 
-    public function show($id)
-    {
-        return 'Service Details';
-    }
-
     public function add(Request $request)
     {
         try {

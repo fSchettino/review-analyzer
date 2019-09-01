@@ -20,9 +20,10 @@ class HotelsController extends Controller
         return view('hotels.index', ['hotels' => $hotels]);
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        return view('hotels.show');
+        $hotel = $this->hotelsServiceClass->show($request->id);
+        return view('hotels.show', ['hotel' => $hotel]);
     }
 
     public function add(Request $request)
@@ -41,9 +42,21 @@ class HotelsController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view('hotels.edit');
+        if ($request->isMethod('get')) {
+            $getAddViewHotelData = $this->hotelsServiceClass->getAddViewHotelData();
+            $hotel = $this->hotelsServiceClass->show($request->id);
+            return view('hotels.edit', ['hotel' => $hotel, 'services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
+        } elseif ($request->isMethod('post')) {
+            $updateResponse = $this->hotelsServiceClass->edit($request);
+            if ($updateResponse == 'Hotel updated') {
+                $hotels = $this->hotelsServiceClass->showAll();
+                return view('hotels.index', ['hotels' => $hotels]);
+            } else {
+                return view('error')->with('error', $updateResponse);
+            };
+        }
     }
 
     public function delete($id)
