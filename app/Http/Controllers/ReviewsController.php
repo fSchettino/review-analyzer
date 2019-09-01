@@ -4,39 +4,43 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Services\ReviewsService;
+use App\Http\Services\HotelsService;
 
 class ReviewsController extends Controller
 {
     protected $reviewsServiceClass;
+    protected $hotelsServiceClass;
 
     public function __construct()
     {
         $this->reviewsServiceClass = new ReviewsService();
+        $this->hotelsServiceClass = new HotelsService();
     }
 
-    public function index()
+    public function add(Request $request)
     {
-        $reviews = $this->reviewsServiceClass->getReviewsList();
-        return view('hotels.show', ['reviews' => $reviews]);
-    }
-
-    public function show($id)
-    {
-        return view('hotels.show');
-    }
-
-    public function add()
-    {
-        return view('hotels.show');
-    }
-
-    public function edit($id)
-    {
-        return view('hotels.show');
+        if ($request->isMethod('get')) {
+            $hotelData = $this->hotelsServiceClass->show($request->hotelId);
+            return view('reviews.add', ['hotel' => $hotelData]);
+        } elseif ($request->isMethod('post')) {
+            $insertResponse = $this->reviewsServiceClass->add($request);
+            if ($insertResponse == 'Review inserted') {
+                $hotels = $this->hotelsServiceClass->showAll();
+                return view('hotels.index', ['hotels' => $hotels]);
+            } else {
+                return view('error')->with('error', $insertResponse);
+            };
+        }
     }
 
     public function delete($id)
     {
-        return view('hotels.show');
+        $deleteResponse = $this->reviewsServiceClass->delete($id);
+        if ($deleteResponse == 'Review deleted') {
+            $hotels = $this->hotelsServiceClass->showAll();
+            return view('hotels.index', ['hotels' => $hotels]);
+        } else {
+            return view('error')->with('error', $deleteResponse);
+        };
     }
 }

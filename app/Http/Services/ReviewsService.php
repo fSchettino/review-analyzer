@@ -2,46 +2,53 @@
 
 namespace App\Http\Services;
 
-use App\Http\Models\ServiceReview;
+use App\Http\Models\Review;
+use App\Http\Services\HotelsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReviewsService
 {
-    protected $serviceReviewModel;
+    protected $reviewModel;
+    protected $hotelsServiceClass;
 
     public function __construct()
     {
-        $this->serviceReviewModel = new ServiceReview();
+        $this->reviewModel = new Review();
+        $this->hotelsServiceClass = new HotelsService();
     }
 
-    public function getReviewsList(int $hotel_id, int $service_id)
+    public function add(Request $request)
     {
-        $hotels = [
-            0 => ['id' => 1, 'hotelId' => 1, 'serviceId' => 1, 'score' => '5.5',],
-            1 => ['id' => 2, 'hotelId' => 1, 'serviceId' => 2, 'score' => '4.5',],
-            2 => ['id' => 3, 'hotelId' => 1, 'serviceId' => 3, 'score' => '3.5',]
-        ];
-
-        return $hotels;
-    }
-
-    public function show($id)
-    {
-        return 'Review Details';
-    }
-
-    public function add()
-    {
-        return 'Review Added';
-    }
-
-    public function edit($id)
-    {
-        return 'Review Updated';
+        try {
+            $this->reviewModel->hotel_id = $request->hotelId;
+            $this->reviewModel->title = $request->title;
+            $this->reviewModel->description = $request->description;
+            $this->reviewModel->score = $this->analyzeReview($request->description);
+            $this->reviewModel->save();
+            return 'Review inserted';
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     public function delete($id)
     {
-        return 'Review Deleted';
+        try {
+            DB::beginTransaction();
+            $review = $this->reviewModel->find($id);
+            $review->delete();
+            DB::commit();
+
+            return 'Review deleted';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th;
+        }
+    }
+
+    public function analyzeReview($reviewDescription)
+    {
+        return 5;
     }
 }

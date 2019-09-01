@@ -30,7 +30,7 @@ class HotelsService
     public function show($id)
     {
         $hotel = $this->hotelModel->find($id);
-        $hotel->load('services')->load('rules');
+        $hotel->load('services')->load('rules')->load('reviews');
         return $hotel;
     }
 

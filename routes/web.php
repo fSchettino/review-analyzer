@@ -29,9 +29,9 @@ Route::match(['get', 'post'], 'service/edit/{id}', 'ServicesController@edit');
 Route::get('service/delete/{id}', 'ServicesController@delete');
 
 // Reviews routes
-Route::get('reviews', 'ReviewsController@index');
+Route::get('reviews/{hotel_id}', 'ReviewsController@index');
 Route::get('review/{id}', 'ReviewsController@show');
-Route::match(['get', 'post'], 'review', 'ReviewsController@add');
+Route::match(['get', 'post'], 'review/hotel/{hotel_id}', 'ReviewsController@add');
 Route::match(['get', 'post'], 'review/edit/{id}', 'ReviewsController@edit');
 Route::get('review/delete/{id}', 'ReviewsController@delete');
 
