@@ -12,14 +12,11 @@
       <li class="nav-item active">
         <a class="nav-link" href="/services">Services<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Keywords
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{ url('/whitelist') }}">Whitelist</a>
-          <a class="dropdown-item" href="{{ url('/blacklist') }}">Blacklist</a>
-        </div>
+      <li class="nav-item active">
+        <a class="nav-link" href="/keywords">Keywords<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/rules">Rules<span class="sr-only">(current)</span></a>
       </li>
     </ul>
   </div>

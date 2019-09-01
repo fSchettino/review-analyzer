@@ -16,50 +16,49 @@ class ServicesController extends Controller
 
     public function index()
     {
-        $services = $this->servicesServiceClass->getServicesList();
+        $services = $this->servicesServiceClass->showAll();
         return view('services.index', ['services' => $services]);
-    }
-
-    public function show($id)
-    {
-        return view('services.show');
     }
 
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
-
-            // Get all whitelist keywords
-            $whitelistKeywords = [
-                0 => ['id' => 1, 'name' => 'Good', 'weight' => '1',],
-                1 => ['id' => 2, 'name' => 'Exelent', 'weight' => '1',],
-                2 => ['id' => 3, 'name' => 'Awesome', 'weight' => '1',]
-            ];
-
-            // Get all blacklist keywords
-            $blacklistKeywords = [
-                0 => ['id' => 1, 'name' => 'Bad', 'weight' => '1',],
-                1 => ['id' => 2, 'name' => 'Dreadful', 'weight' => '1',],
-                2 => ['id' => 3, 'name' => 'Appalling', 'weight' => '1',]
-            ];
-
-            return view('services.add', ['whitelistKeywords' => $whitelistKeywords, 'blacklistKeywords' => $blacklistKeywords]);
+            return view('services.add');
         } elseif ($request->isMethod('post')) {
-            $serviceData = $request->all();
-            // $request->getParam('name');
-            // $request->getParam('weight');
-            $services = $this->servicesServiceClass->getServicesList($serviceData);
-            return view('services.index', ['services' => $services]);
+            $insertResponse = $this->servicesServiceClass->add($request);
+            if ($insertResponse == 'Service inserted') {
+                $services = $this->servicesServiceClass->showAll();
+                return view('services.index', ['services' => $services]);
+            } else {
+                return view('error')->with('error', $insertResponse);
+            };
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view('services.edit');
+        if ($request->isMethod('get')) {
+            $service = $this->servicesServiceClass->edit($request);
+            return view('services.edit')->with('service', $service);
+        } elseif ($request->isMethod('post')) {
+            $updateResponse = $this->servicesServiceClass->edit($request);
+            if ($updateResponse == 'Service updated') {
+                $services = $this->servicesServiceClass->showAll();
+                return view('services.index', ['services' => $services]);
+            } else {
+                return view('error')->with('error', $updateResponse);
+            };
+        }
     }
 
     public function delete($id)
     {
-        return view('services.delete');
+        $deleteResponse = $this->servicesServiceClass->delete($id);
+        if ($deleteResponse == 'Service deleted') {
+            $services = $this->servicesServiceClass->showAll();
+            return view('services.index', ['services' => $services]);
+        } else {
+            return view('error')->with('error', $deleteResponse);
+        };
     }
 }

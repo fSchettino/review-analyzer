@@ -16,33 +16,9 @@
             <form method="post" action="{{ url('/service') }}">
             @csrf
                 <div class="form-group">
-                    <label for="name">Service name</label>
-                    <input type="text" class="form-control" placeholder="e.g. bad" id="name" name="name">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" placeholder="e.g. Swimming pool" id="name" name="name">
                 </div>
-                <br>
-                <h3>
-                    Select Service Review analysis keywords
-                </h3>
-                <!-- Start whitelist keywords selector -->
-                <div class="form-group col-md-4 no-sides-padding margin-top-30">
-                    <label for="whitelistKeywords">Whitelist Keywords</label>
-                    <select multiple class="form-control" id="whitelistKeywords" name="whitelistKeywords">
-                    @foreach($whitelistKeywords as $whitelistKeyword)
-                        <option value="{{ $whitelistKeyword['name'] }}" name="{{ $whitelistKeyword['name'] }}">{{ $whitelistKeyword['name'] }}</option>
-                    @endforeach
-                    </select>
-                </div>
-                <!-- End whitelist keywords selector -->
-                <!-- Start blacklist keywords selector -->
-                <div class="form-group col-md-4 no-sides-padding margin-top-30">
-                    <label for="blacklistKeywords">Blacklist Keywords</label>
-                    <select multiple class="form-control" id="blacklistKeywords" name="blacklistKeywords">
-                    @foreach($blacklistKeywords as $blacklistKeyword)
-                        <option value="{{ $blacklistKeyword['name'] }}" name="{{ $blacklistKeyword['name'] }}">{{ $blacklistKeyword['name'] }}</option>
-                    @endforeach
-                    </select>
-                </div>
-                <!-- End blacklist keywords selector -->
                 <a class="btn btn-outline-primary" href="{{ url('/services') }}" role="button">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>

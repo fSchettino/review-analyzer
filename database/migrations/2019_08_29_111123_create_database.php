@@ -33,7 +33,7 @@ class CreateDatabase extends Migration
             $table->engine = 'MyISAM';
         });
 
-        Schema::create('hotels', function (Blueprint $table) {
+        Schema::create('hotel', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100);
             $table->text('description');
@@ -44,7 +44,15 @@ class CreateDatabase extends Migration
             $table->engine = 'MyISAM';
         });
 
-        Schema::create('hotel_reviews', function (Blueprint $table) {
+        Schema::create('service', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name', 100);
+            $table->timestamps();
+
+            $table->engine = 'MyISAM';
+        });
+
+        Schema::create('review', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('hotel_id');
             $table->string('title', 100);
@@ -53,125 +61,63 @@ class CreateDatabase extends Migration
             $table->timestamps();
 
             $table->foreign('hotel_id')
-                   ->references('id')->on('hotels')
+                   ->references('id')->on('hotel')
                    ->onDelete('cascade');
 
             $table->engine = 'MyISAM';
         });
 
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('keyword', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->enum('type', ['positive', 'negative']);
             $table->string('name', 100);
-            $table->double('score', 2, 1);
+            $table->enum('weight', [1, 2, 3]);
             $table->timestamps();
 
             $table->engine = 'MyISAM';
         });
 
-        Schema::create('service_reviews', function (Blueprint $table) {
+        Schema::create('rule', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('service_id');
-            $table->string('title', 100);
-            $table->text('description');
-            $table->double('score', 2, 1);
+            $table->string('name', 100);
             $table->timestamps();
 
             $table->foreign('service_id')
-                   ->references('id')->on('services')
+                   ->references('id')->on('service')
                    ->onDelete('cascade');
-
-            $table->engine = 'MyISAM';
-        });
-
-        Schema::create('whitelist_keywords', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 100);
-            $table->integer('weight');
-            $table->timestamps();
-
-            $table->engine = 'MyISAM';
-        });
-
-        Schema::create('blacklist_keywords', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 100);
-            $table->integer('weight');
-            $table->timestamps();
 
             $table->engine = 'MyISAM';
         });
 
         // junction table between hotels and services
-        Schema::create('hotels_services', function (Blueprint $table) {
+        Schema::create('hotel_service', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('hotel_id');
             $table->bigInteger('service_id');
-            $table->timestamps();
 
             $table->foreign('hotel_id')
-                   ->references('id')->on('hotels');
+                  ->references('id')->on('hotels')
+                  ->onDelete('cascade');
             $table->foreign('service_id')
-                   ->references('id')->on('services');
+                  ->references('id')->on('service')
+                  ->onDelete('cascade');
 
             $table->engine = 'MyISAM';
         });
 
-        // junction table between hotels and whitelist keywords
-        Schema::create('hotels_whitelist_keywords', function (Blueprint $table) {
+        // junction table between rules and keywords
+        Schema::create('rule_keyword', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('hotel_id');
-            $table->bigInteger('whitelist_keyword_id');
-            $table->timestamps();
+            $table->bigInteger('rule_id');
+            $table->bigInteger('keyword_id');
 
-            $table->foreign('hotel_id')
-                   ->references('id')->on('hotels');
-            $table->foreign('whitelist_keyword_id')
-                   ->references('id')->on('whitelist_keywords');
-
-            $table->engine = 'MyISAM';
-        });
-
-        // junction table between hotels and blacklist keywords
-        Schema::create('blacklist_keywords_hotels', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('hotel_id');
-            $table->bigInteger('blacklist_keyword_id');
-            $table->timestamps();
-
-            $table->foreign('hotel_id')
-                   ->references('id')->on('hotels');
-            $table->foreign('blacklist_keyword_id')
-                   ->references('id')->on('blacklist_keywords');
-
-            $table->engine = 'MyISAM';
-        });
-
-        // junction table between services and whitelist keywords
-        Schema::create('services_whitelist_keywords', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('service_id');
-            $table->bigInteger('whitelist_keyword_id');
-            $table->timestamps();
-
-            $table->foreign('service_id')
-                   ->references('id')->on('services');
-            $table->foreign('whitelist_keyword_id')
-                   ->references('id')->on('whitelist_keywords');
-
-            $table->engine = 'MyISAM';
-        });
-
-        // junction table between services and blacklist keywords
-        Schema::create('blacklist_keywords_services', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('service_id');
-            $table->bigInteger('blacklist_keyword_id');
-            $table->timestamps();
-
-            $table->foreign('service_id')
-                   ->references('id')->on('services');
-            $table->foreign('blacklist_keyword_id')
-                   ->references('id')->on('blacklist_keywords');
+            $table->foreign('rule_id')
+                  ->references('id')->on('rule')
+                  ->onDelete('cascade');
+            $table->foreign('keyword_id')
+                  ->references('id')->on('keyword')
+                  ->onDelete('cascade');
 
             $table->engine = 'MyISAM';
         });
@@ -186,16 +132,12 @@ class CreateDatabase extends Migration
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_resets');
-        Schema::dropIfExists('hotels');
-        Schema::dropIfExists('hotel_reviews');
-        Schema::dropIfExists('services');
-        Schema::dropIfExists('service_reviews');
-        Schema::dropIfExists('whitelist_keywords');
-        Schema::dropIfExists('blacklist_keywords');
-        Schema::dropIfExists('hotels_services');
-        Schema::dropIfExists('hotels_whitelist_keywords');
-        Schema::dropIfExists('blacklist_keywords_hotels');
-        Schema::dropIfExists('services_whitelist_keywords');
-        Schema::dropIfExists('blacklist_keywords_services');
+        Schema::dropIfExists('hotel');
+        Schema::dropIfExists('service');
+        Schema::dropIfExists('review');
+        Schema::dropIfExists('keyword');
+        Schema::dropIfExists('rule');
+        Schema::dropIfExists('hotel_service');
+        Schema::dropIfExists('rule_keyword');
     }
 }

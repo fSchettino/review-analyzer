@@ -3,35 +3,24 @@
 namespace App\Http\Services;
 
 use App\Http\Models\Service;
-use App\Http\Models\WhitelistKeyword;
-use App\Http\Models\BlacklistKeyword;
+use App\Http\Models\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServicesService
 {
     protected $serviceModel;
-    protected $whitelistModel;
-    protected $blacklistModel;
+    protected $ruleModel;
 
     public function __construct()
     {
         $this->serviceModel = new Service();
-        $this->whitelistModel = new WhitelistKeyword();
-        $this->blacklistModel = new BlacklistKeyword();
+        $this->ruleModel = new Rule();
     }
 
-    public function getServicesList()
+    public function showAll()
     {
-        $whitelistKeywords = $this->whitelistModel->all();
-        $blacklistKeywords = $this->blacklistModel->all();
-
-        $services = [
-             0 => ['id' => 1, 'name' => 'Service 1', 'reviews' => '15', 'avgScore' => '3.2', 'goodKeywords' => $whitelistKeywords, 'badKeywords' => $blacklistKeywords],
-             1 => ['id' => 2, 'name' => 'Service 2', 'reviews' => '24', 'avgScore' => '2.1', 'goodKeywords' => $whitelistKeywords, 'badKeywords' => $blacklistKeywords],
-             2 => ['id' => 3, 'name' => 'Service 3', 'reviews' => '18', 'avgScore' => '5.5', 'goodKeywords' => $whitelistKeywords, 'badKeywords' => $blacklistKeywords]
-         ];
-        
-        
+        $services = $this->serviceModel->all();
         return $services;
     }
 
@@ -40,18 +29,52 @@ class ServicesService
         return 'Service Details';
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        return 'Service Added';
+        try {
+            $this->serviceModel->name = $request->name;
+            $this->serviceModel->save();
+            return 'Service inserted';
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return 'Service Updated';
+        if ($request->isMethod('get')) {
+            $service = $this->serviceModel->find($request->id);
+            return $service;
+        } elseif ($request->isMethod('post')) {
+            try {
+                $service = $this->serviceModel->find($request->id);
+                $service->name = $request->name;
+                $service->save();
+                return 'Service updated';
+            } catch (\Throwable $th) {
+                return $th;
+            }
+        }
     }
 
     public function delete($id)
     {
-        return 'Service Deleted';
+        try {
+            DB::beginTransaction();
+            $service = $this->serviceModel->find($id);
+            $rules = $service->load('rules');
+            foreach ($service->rules as $rule) {
+                $serviceRule = $this->ruleModel->find($rule->id);
+                $serviceRule->keywords()->detach();
+                $serviceRule->delete();
+            }
+            $service->delete();
+            DB::commit();
+            
+            return 'Service deleted';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th;
+        }
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hotel extends Model
 {
-    protected $table = 'hotels';
+    protected $table = 'hotel';
     
     protected $fillable = [
         'id',
@@ -19,7 +19,7 @@ class Hotel extends Model
     //each hotel has many reviews
     public function reviews()
     {
-        return $this->hasMany('App\Http\Models\HotelReview');
+        return $this->hasMany('App\Http\Models\Review');
     }
 
     //each hotel belongs to many services
