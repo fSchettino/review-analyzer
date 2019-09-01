@@ -17,10 +17,6 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Service name</th>
-                        <th scope="col">Reviews</th>
-                        <th scope="col">Avg Score</th>
-                        <th scope="col">Good keywords</th>
-                        <th scope="col">Bad keywords</th>
                         <th scope="col" colspan="2" class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -29,20 +25,8 @@
                     <tr>
                         <td>{{ $service['id'] }}</td>
                         <td>{{ $service['name'] }}</td>
-                        <td>{{ $service['reviews'] }}</td>
-                        <td>{{ $service['avgScore'] }}</td>
                         <td>
-                            @foreach($service['goodKeywords'] as $goodKeyword)
-                                <li>{{ $goodKeyword['name'] }}</li>
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach($service['badKeywords'] as $badKeyword)
-                                <li>{{ $badKeyword['name'] }}</li>
-                            @endforeach
-                        </td>
-                        <td>
-                            <a href="{{ url('/service', $service['id']) }}"><i class="fas fa-eye"></i> View</a>
+                            <a href="{{ url('/service/edit', $service['id']) }}"><i class="fas fa-edit"></i> Edit</a>
                         </td>
                         <td>
                             <a href="{{ url('/service/delete', $service['id']) }}"><i class="fas fa-trash-alt"></i> Delete</a>

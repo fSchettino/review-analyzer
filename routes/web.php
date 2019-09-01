@@ -28,16 +28,23 @@ Route::match(['get', 'post'], 'service', 'ServicesController@add');
 Route::match(['get', 'post'], 'service/edit/{id}', 'ServicesController@edit');
 Route::get('service/delete/{id}', 'ServicesController@delete');
 
-// Whitelist routes
-Route::get('whitelist', 'WhitelistController@index');
-Route::get('whitelistKey/{id}', 'WhitelistController@show');
-Route::match(['get', 'post'], 'whitelistKey', 'WhitelistController@add');
-Route::match(['get', 'post'], 'whitelistKey/edit/{id}', 'WhitelistController@edit');
-Route::get('whitelistKey/delete/{id}', 'WhitelistController@delete');
+// Reviews routes
+Route::get('reviews', 'ReviewsController@index');
+Route::get('review/{id}', 'ReviewsController@show');
+Route::match(['get', 'post'], 'review', 'ReviewsController@add');
+Route::match(['get', 'post'], 'review/edit/{id}', 'ReviewsController@edit');
+Route::get('review/delete/{id}', 'ReviewsController@delete');
 
-// Blacklist routes
-Route::get('blacklist', 'BlacklistController@index');
-Route::get('blacklistKey/{id}', 'BlacklistController@show');
-Route::match(['get', 'post'], 'blacklistKey', 'BlacklistController@add');
-Route::match(['get', 'post'], 'blacklistKey/edit/{id}', 'BlacklistController@edit');
-Route::get('blacklistKey/delete/{id}', 'BlacklistController@delete');
+// Keywords routes
+Route::get('keywords', 'KeywordsController@index');
+Route::get('keyword/{id}', 'KeywordsController@show');
+Route::match(['get', 'post'], 'keyword', 'KeywordsController@add');
+Route::match(['get', 'post'], 'keyword/edit/{id}', 'KeywordsController@edit');
+Route::get('keyword/delete/{id}', 'KeywordsController@delete');
+
+// Rueles routes
+Route::get('rules', 'RulesController@index');
+Route::get('rule/{id}', 'RulesController@show');
+Route::match(['get', 'post'], 'rule', 'RulesController@add');
+Route::match(['get', 'post'], 'rule/edit/{id}', 'RulesController@edit');
+Route::get('rule/delete/{id}', 'RulesController@delete');
