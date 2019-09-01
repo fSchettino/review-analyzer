@@ -3,25 +3,27 @@
 namespace App\Http\Services;
 
 use App\Http\Models\Hotel;
+use App\Http\Services\ServicesService;
+use App\Http\Services\RulesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HotelsService
 {
     protected $hotelModel;
+    protected $servicesServiceClass;
+    protected $rulesServiceClass;
 
     public function __construct()
     {
         $this->hotelModel = new Hotel();
+        $this->servicesServiceClass = new ServicesService();
+        $this->rulesServiceClass = new RulesService();
     }
 
-    public function getHotelsList()
+    public function showAll()
     {
-        $hotels = [
-            0 => ['id' => 1, 'name' => 'Hotel 1', 'reviews' => '75', 'avgScore' => '5.5', 'goodKeywords' => ['good', 'exelent', 'awesome'], 'badKeywords' => ['bad', 'dreadful', 'appalling']],
-            1 => ['id' => 2, 'name' => 'Hotel 2', 'reviews' => '33', 'avgScore' => '4.5', 'goodKeywords' => ['good', 'exelent', 'awesome'], 'badKeywords' => ['bad', 'dreadful', 'appalling']],
-            2 => ['id' => 3, 'name' => 'Hotel 3', 'reviews' => '67', 'avgScore' => '3.5', 'goodKeywords' => ['good', 'exelent', 'awesome'], 'badKeywords' => ['bad', 'dreadful', 'appalling']]
-        ];
-
+        $hotels = $this->hotelModel->all()->load('services')->load('rules');
         return $hotels;
     }
 
@@ -30,18 +32,93 @@ class HotelsService
         return 'Hotel Details';
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        return 'Hotel Added';
+        try {
+            DB::beginTransaction();
+            $this->hotelModel->name = $request->name;
+            $this->hotelModel->description = $request->description;
+            $this->hotelModel->rooms = $request->rooms;
+            $this->hotelModel->save();
+
+            $services = $request->services;
+            $rules = $request->rules;
+
+            if (!$services==null) {
+                foreach ($services as $service) {
+                    $this->hotelModel->services()->attach($service);
+                };
+            };
+
+            if (!$rules==null) {
+                foreach ($rules as $rule) {
+                    $this->hotelModel->rules()->attach($rule);
+                };
+            };
+            DB::commit();
+
+            return 'Hotel inserted';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th;
+        }
     }
 
     public function edit($id)
     {
-        return 'Hotel Updated';
+        try {
+            DB::beginTransaction();
+            $hotel = $this->hotelModel->find($request->id);
+            $hotel->name = $request->name;
+            $hotel->description = $request->description;
+            $hotel->rooms = $request->rooms;
+            $hotel->save();
+
+            $services = $request->services;
+            $rules = $request->rules;
+
+            if (!$services==null) {
+                foreach ($services as $service) {
+                    $this->hotelModel->services()->attach($service);
+                };
+            };
+
+            if (!$rules==null) {
+                foreach ($rules as $rule) {
+                    $this->hotelModel->rules()->attach($rule);
+                };
+            };
+            DB::commit();
+
+            return 'Hotel updated';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th;
+        }
     }
 
     public function delete($id)
     {
-        return 'Hotel Deleted';
+        try {
+            DB::beginTransaction();
+            $hotel = $this->hotelModel->find($id);
+            $hotel->services()->detach();
+            $hotel->rules()->detach();
+            $hotel->reviews()->delete();
+            $hotel->delete();
+            DB::commit();
+
+            return 'Hotel deleted';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th;
+        }
+    }
+
+    public function getAddViewHotelData()
+    {
+        $services = $this->servicesServiceClass->showAll();
+        $rules = $this->rulesServiceClass->showAll();
+        return ['services' => $services, 'rules' => $rules];
     }
 }

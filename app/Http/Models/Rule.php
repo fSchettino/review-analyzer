@@ -25,4 +25,10 @@ class Rule extends Model
     {
         return $this->belongsTo('App\Http\Models\Service', 'service_id');
     }
+
+    //each rule belongs to many hotels
+    public function hotels()
+    {
+        return $this->belongsToMany('App\Http\Models\Hotel', 'hotel_rule', 'hotel_id', 'rule_id');
+    }
 }

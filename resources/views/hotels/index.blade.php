@@ -19,8 +19,8 @@
                         <th scope="col">Hotel name</th>
                         <th scope="col">Reviews</th>
                         <th scope="col">Avg Score</th>
-                        <th scope="col">Good keywords</th>
-                        <th scope="col">Bad keywords</th>
+                        <th scope="col">Services</th>
+                        <th scope="col">Rules</th>
                         <th scope="col" colspan="2" class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -29,16 +29,20 @@
                     <tr>
                         <td>{{ $hotel['id'] }}</td>
                         <td>{{ $hotel['name'] }}</td>
-                        <td>{{ $hotel['reviews'] }}</td>
-                        <td>{{ $hotel['avgScore'] }}</td>
+                        <td>{{ count($hotel['reviews']) }}</td>
+                            @if ($hotel['avgScore'] != null)
+                                <td>{{ $hotel['avgScore'] }}</td>
+                            @else
+                                <td>0</td>
+                            @endif
                         <td>
-                            @foreach($hotel['goodKeywords'] as $goodKeyword)
-                                <li>{{ $goodKeyword }}</li>
+                            @foreach($hotel['services'] as $service)
+                                <li>{{ $service['name'] }}</li>
                             @endforeach
                         </td>
                         <td>
-                            @foreach($hotel['badKeywords'] as $badKeyword)
-                                <li>{{ $badKeyword }}</li>
+                            @foreach($hotel['rules'] as $rule)
+                                <li>{{ $rule['name'] }}</li>
                             @endforeach
                         </td>
                         <td>

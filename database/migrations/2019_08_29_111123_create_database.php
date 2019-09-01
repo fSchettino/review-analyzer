@@ -38,7 +38,7 @@ class CreateDatabase extends Migration
             $table->string('name', 100);
             $table->text('description');
             $table->integer('rooms');
-            $table->double('score', 2, 1);
+            $table->double('score', 2, 1)->nullable();
             $table->timestamps();
 
             $table->engine = 'MyISAM';
@@ -57,7 +57,7 @@ class CreateDatabase extends Migration
             $table->bigInteger('hotel_id');
             $table->string('title', 100);
             $table->text('description');
-            $table->double('score', 2, 1);
+            $table->double('score', 2, 1)->nullable();
             $table->timestamps();
 
             $table->foreign('hotel_id')
@@ -101,6 +101,22 @@ class CreateDatabase extends Migration
                   ->onDelete('cascade');
             $table->foreign('service_id')
                   ->references('id')->on('service')
+                  ->onDelete('cascade');
+
+            $table->engine = 'MyISAM';
+        });
+
+        // junction table between hotels and rules
+        Schema::create('hotel_rule', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('hotel_id');
+            $table->bigInteger('rule_id');
+
+            $table->foreign('hotel_id')
+                  ->references('id')->on('hotels')
+                  ->onDelete('cascade');
+            $table->foreign('rule_id')
+                  ->references('id')->on('rule')
                   ->onDelete('cascade');
 
             $table->engine = 'MyISAM';

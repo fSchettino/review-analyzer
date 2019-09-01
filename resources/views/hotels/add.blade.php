@@ -35,7 +35,7 @@
                 <div class="form-group margin-top-30">
                     @foreach($services as $service)
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="{{ $service['id'] }}" id="{{ $service['id'] }}">
+                        <input class="form-check-input" type="checkbox" value="{{ $service['id'] }}" id="{{ $service['id'] }}" name="services[]">
                         <label class="form-check-label" for="{{ $service['id'] }}">
                             {{ $service['name'] }}
                         </label>
@@ -45,28 +45,18 @@
                 <br>
                 <!-- End hotel services list -->
                 <h3>
-                    Select Hotel Review analysis keywords
+                    Select Hotel Review analysis rules
                 </h3>
                 <!-- Start whitelist keywords selector -->
                 <div class="form-group col-md-4 no-sides-padding margin-top-30">
-                    <label for="whitelistKeywords">Whitelist Keywords</label>
-                    <select multiple class="form-control" id="whitelistKeywords" name="whitelistKeywords">
-                    @foreach($whitelistKeywords as $whitelistKeyword)
-                        <option value="{{ $whitelistKeyword['name'] }}" name="{{ $whitelistKeyword['name'] }}">{{ $whitelistKeyword['name'] }}</option>
+                    <label for="rules">Rules</label>
+                    <select multiple class="form-control" id="rules" name="rules[]">
+                    @foreach($rules as $rule)
+                        <option value="{{ $rule['id'] }}" name="{{ $rule['name'] }}">{{ $rule['name'] }}</option>
                     @endforeach
                     </select>
                 </div>
                 <!-- End whitelist keywords selector -->
-                <!-- Start blacklist keywords selector -->
-                <div class="form-group col-md-4 no-sides-padding margin-top-30">
-                    <label for="blacklistKeywords">Blacklist Keywords</label>
-                    <select multiple class="form-control" id="blacklistKeywords" name="blacklistKeywords">
-                    @foreach($blacklistKeywords as $blacklistKeyword)
-                        <option value="{{ $blacklistKeyword['name'] }}" name="{{ $blacklistKeyword['name'] }}">{{ $blacklistKeyword['name'] }}</option>
-                    @endforeach
-                    </select>
-                </div>
-                <!-- End blacklist keywords selector -->
                 <a class="btn btn-outline-primary" href="{{ url('/hotels') }}" role="button">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>

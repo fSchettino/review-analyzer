@@ -15,4 +15,10 @@ class Review extends Model
         'description',
         'score',
     ];
+
+    //each review belongs to a hotel
+    public function hotel()
+    {
+        return $this->belongsTo('App\Http\Models\Hotel');
+    }
 }

@@ -27,4 +27,10 @@ class Hotel extends Model
     {
         return $this->belongsToMany('App\Http\Models\Service');
     }
+
+    //each rule belongs to many rules
+    public function rules()
+    {
+        return $this->belongsToMany('App\Http\Models\Rule');
+    }
 }
