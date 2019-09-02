@@ -91,7 +91,6 @@ class ReviewsService
                     $serviceMatch = false;
                 } else {
                     $serviceMatch = true;
-
                     // If rule service appears in the review, get rule keywords info
                     foreach ($ruleInfo->keywords as $keyword) {
                         $keywordType = $keyword->type;
