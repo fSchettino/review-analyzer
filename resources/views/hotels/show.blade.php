@@ -58,7 +58,7 @@
                         <dd class="col-md-8">{{ $hotelReview['description'] }}</dd>
                         <dt class="col-md-8">Review score</dt>
                         @if ($hotelReview['score'] == 0)
-                            <dd class="col-md-8 text-warning"><i class="fas fa-meh"></i> {{ $hotelReview['score'] }}</dd>
+                            <dd class="col-md-8 text-warning"><i class="fas fa-meh"></i> Null score</dd>
                         @elseif ($hotelReview['score'] > 0)
                             <dd class="col-md-8 text-success"><i class="fas fa-smile"></i> {{ $hotelReview['score'] }}</dd>
                         @else

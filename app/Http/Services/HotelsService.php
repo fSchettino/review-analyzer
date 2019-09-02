@@ -137,18 +137,25 @@ class HotelsService
     public function updateHotelScore($id)
     {
         $hotel = $this->hotelModel->find($id);
-        $hotel->load('reviews');
 
-        $reviewsCount = count($hotel->reviews);
+        $validReviewsCounter = 0;
+
+        foreach ($hotel->reviews as $review) {
+            if ($review->score != 0) {
+                $validReviewsCounter++;
+            }
+        }
+        echo($validReviewsCounter);
+
         $scoreSum = 0;
         $hotelScore = 0;
 
-        if ($reviewsCount != 0) {
+        if ($validReviewsCounter != 0) {
             foreach ($hotel->reviews as $review) {
                 $scoreSum+= $review->score;
             }
 
-            $hotelScore = $scoreSum/$reviewsCount;
+            $hotelScore = $scoreSum/$validReviewsCounter;
             $hotel->score = $hotelScore;
             $hotel->save();
         } else {

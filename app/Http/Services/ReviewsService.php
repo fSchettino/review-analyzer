@@ -64,7 +64,8 @@ class ReviewsService
     {
         // Process review text data (title and description) and store each word as an array item
         $reviewTextData = $reviewTitle . ' ' . $reviewDescription;
-        $reviewTextDataProcessingStep1 = str_replace(['  ', ' ', ';', ',', ':'], ' ', $reviewTextData);
+        $specialChars = ['  ', ' ', ';', ',', ':', '|', '!', '¡', '"', '\'', '£', '$', '%', '&', '/', '\\', '(', ')', '=', '?', '¿', '*', '+', '-', '@', '€', '<', '>', '-', '_', '#', '°', '[', ']', '{', '}', '§', '`'];
+        $reviewTextDataProcessingStep1 = str_replace($specialChars, ' ', $reviewTextData);
         $reviewTextDataProcessingStep2 = str_replace('  ', ' ', $reviewTextDataProcessingStep1);
         $reviewTextDataProcessed = explode(' ', $reviewTextDataProcessingStep2);
 
@@ -117,6 +118,14 @@ class ReviewsService
                     break;
                 }
             }
+        }
+
+        // If review contains both positive and negative Keywords review score is set to 0
+        // and review is declared null witch means that deosn't will be taked into account during
+        // hotel average score calculation
+        if (($positiveScore > 1) && ($negativeScore > 1)) {
+            $reviewScore = 0;
+            return $reviewScore;
         }
 
         if ($positiveWordCount > 1) {
