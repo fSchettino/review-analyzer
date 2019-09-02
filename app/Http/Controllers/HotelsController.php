@@ -14,18 +14,21 @@ class HotelsController extends Controller
         $this->hotelsServiceClass = new HotelsService();
     }
 
+    // Load index page with hotels list
     public function index()
     {
         $hotels = $this->hotelsServiceClass->showAll();
         return view('hotels.index', ['hotels' => $hotels]);
     }
 
+    // Load hotel detail page
     public function show(Request $request)
     {
         $hotel = $this->hotelsServiceClass->show($request->id);
         return view('hotels.show', ['hotel' => $hotel]);
     }
 
+    // Load add hotel page
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -42,6 +45,7 @@ class HotelsController extends Controller
         }
     }
 
+    // Load update hotel page
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -59,6 +63,7 @@ class HotelsController extends Controller
         }
     }
 
+    // Delete hotel and reload hotels list page
     public function delete($id)
     {
         $deleteResponse = $this->hotelsServiceClass->delete($id);

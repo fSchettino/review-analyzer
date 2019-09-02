@@ -21,18 +21,21 @@ class RulesService
         $this->keywordsServiceClass = new KeywordsService();
     }
 
+    // Get all rules and relations
     public function showAll()
     {
         $rules = $this->ruleModel->all()->load('keywords')->load('service');
         return $rules;
     }
 
+    // Get rule by id
     public function show($id)
     {
         $rule = $this->ruleModel->find($id)->load('keywords')->load('service');
         return $rule;
     }
 
+    // Add rule
     public function add(Request $request)
     {
         try {
@@ -64,6 +67,7 @@ class RulesService
         }
     }
 
+    // Update rule
     public function edit(Request $request)
     {
         try {
@@ -97,6 +101,7 @@ class RulesService
         }
     }
 
+    // Delete rule
     public function delete($id)
     {
         try {
@@ -113,6 +118,7 @@ class RulesService
         }
     }
 
+    // Get all information to render rule add view
     public function getAddViewRuleData()
     {
         $services = $this->servicesServiceClass->showAll();

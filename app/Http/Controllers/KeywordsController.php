@@ -14,12 +14,14 @@ class KeywordsController extends Controller
         $this->keywordsServiceClass = new KeywordsService();
     }
 
+    // Load index page with keywords list
     public function index()
     {
         $keywords = $this->keywordsServiceClass->showAll();
         return view('keywords.index', ['keywords' => $keywords]);
     }
 
+    // Load add keyword page
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -35,6 +37,7 @@ class KeywordsController extends Controller
         }
     }
 
+    // Load update keyword page
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -51,6 +54,7 @@ class KeywordsController extends Controller
         }
     }
 
+    // Delete keyword and reload keywords list page
     public function delete($id)
     {
         $deleteResponse = $this->keywordsServiceClass->delete($id);

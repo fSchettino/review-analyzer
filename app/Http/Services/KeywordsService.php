@@ -15,13 +15,14 @@ class KeywordsService
         $this->keywordModel = new Keyword();
     }
 
+    // Get all keywords
     public function showAll()
     {
-        //find all keywords
         $keywords = $this->keywordModel->all();
         return $keywords;
     }
 
+    // Add keyword
     public function add(Request $request)
     {
         try {
@@ -35,6 +36,7 @@ class KeywordsService
         }
     }
 
+    // Update keyword
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -54,6 +56,7 @@ class KeywordsService
         }
     }
 
+    // Delete keyword
     public function delete($id)
     {
         try {
@@ -70,6 +73,7 @@ class KeywordsService
         }
     }
 
+    // Get keywords by type (positive|negative)
     public function getKeywordsByType($type)
     {
         $keywords = $this->keywordModel::all()->where('type', $type);

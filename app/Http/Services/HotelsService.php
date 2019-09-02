@@ -21,12 +21,14 @@ class HotelsService
         $this->rulesServiceClass = new RulesService();
     }
 
+    // Get all hotels and relations
     public function showAll()
     {
         $hotels = $this->hotelModel->all()->sortByDesc("score")->load('services')->load('rules');
         return $hotels;
     }
 
+    // Get hotel by id
     public function show($id)
     {
         $hotel = $this->hotelModel->find($id);
@@ -34,6 +36,7 @@ class HotelsService
         return $hotel;
     }
 
+    // Add hotel
     public function add(Request $request)
     {
         try {
@@ -67,6 +70,7 @@ class HotelsService
         }
     }
 
+    // Update hotel
     public function edit(Request $request)
     {
         try {
@@ -102,6 +106,7 @@ class HotelsService
         }
     }
 
+    // Delete hotel
     public function delete($id)
     {
         try {
@@ -120,6 +125,7 @@ class HotelsService
         }
     }
 
+    // Get all information to render hotel add view
     public function getAddViewHotelData()
     {
         $services = $this->servicesServiceClass->showAll();
@@ -127,6 +133,7 @@ class HotelsService
         return ['services' => $services, 'rules' => $rules];
     }
 
+    // Update hotel average score
     public function updateHotelScore($id)
     {
         $hotel = $this->hotelModel->find($id);

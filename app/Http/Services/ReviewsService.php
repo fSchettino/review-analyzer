@@ -21,6 +21,7 @@ class ReviewsService
         $this->rulesServiceClass = new RulesService();
     }
 
+    // Add a hotel review
     public function add(Request $request)
     {
         try {
@@ -39,6 +40,7 @@ class ReviewsService
         }
     }
 
+    // Delete a hotel review
     public function delete($id)
     {
         try {
@@ -57,9 +59,10 @@ class ReviewsService
         }
     }
 
+    // Semantic analysis algorithm
     public function analyzeReview($hotelId, $reviewTitle, $reviewDescription)
     {
-        // Process review text data and store each word as an array item
+        // Process review text data (title and description) and store each word as an array item
         $reviewTextData = $reviewTitle . ' ' . $reviewDescription;
         $reviewTextDataProcessingStep1 = str_replace(['  ', ' ', ';', ',', ':'], ' ', $reviewTextData);
         $reviewTextDataProcessingStep2 = str_replace('  ', ' ', $reviewTextDataProcessingStep1);
@@ -68,7 +71,7 @@ class ReviewsService
         // Get hotel info
         $hotelInfo = $this->hotelsServiceClass->show($hotelId);
 
-        // Define analysis counters
+        // Define analysis counters and variables
         $serviceMatch = false;
         $positiveWordCount = 0;
         $negativeWordCount = 0;
@@ -77,25 +80,25 @@ class ReviewsService
         $negativeScore = 0;
         $reviewScore = 0;
 
-        // Analyze review text base on hotel rules
+        // Analyze review text based on hotel rules
         foreach ($hotelInfo->rules as $rule) {
             $ruleInfo = $this->rulesServiceClass->show($rule->id);
             $ruleService = strtolower($ruleInfo->service->name);
-
-            // Check if hotel service appears in the review text data
+            echo('ruleService: ' . $ruleService . '<br>');
+            // Check if rule service appears in the review
             foreach ($reviewTextDataProcessed as $word) {
                 if ($ruleService != strtolower($word)) {
                     $serviceMatch = false;
                 } else {
                     $serviceMatch = true;
-                    // Get rule info
+                    // If rule service appears in the review, get rule keywords info
                     foreach ($ruleInfo->keywords as $keyword) {
                         $keywordType = $keyword->type;
                         $keywordName = strtolower($keyword->name);
                         $keywordWeight = $keyword->weight;
-                        echo('keywordType: ' . $keywordType . ' ' . 'keywordName: ' . $keywordName . ' ' . 'keywordWeight: ' . $keywordWeight . '<br>');
+                        echo('keywordType: ' . $keywordType . ' | ' . 'keywordName: ' . $keywordName . ' | ' . 'keywordWeight: ' . $keywordWeight . '<br>');
 
-                        // scan review text data looking for rule keywords
+                        // Scan review looking for current keyword
                         foreach ($reviewTextDataProcessed as $word) {
                             if ($keywordName == strtolower($word)) {
                                 $tempScoreCount+= $keywordWeight;
@@ -111,9 +114,9 @@ class ReviewsService
                             $tempScoreCount = 0;
                         }
                     }
-                    echo('positiveWordCount ' . $positiveWordCount);
-                    echo('negativeWordCount ' . $negativeWordCount);
-                    // Break scan and pass to next service
+                    echo('positiveWordCount ' . $positiveWordCount . '<br>');
+                    echo('negativeWordCount ' . $negativeWordCount . '<br>');
+                    // Break scan and pass to next rule service
                     break;
                 }
             }

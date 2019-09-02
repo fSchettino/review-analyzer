@@ -18,12 +18,14 @@ class ServicesService
         $this->ruleModel = new Rule();
     }
 
+    // Get all services
     public function showAll()
     {
         $services = $this->serviceModel->all();
         return $services;
     }
 
+    // Add service
     public function add(Request $request)
     {
         try {
@@ -35,6 +37,7 @@ class ServicesService
         }
     }
 
+    // Update service
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -52,6 +55,7 @@ class ServicesService
         }
     }
 
+    // Delete service
     public function delete($id)
     {
         try {

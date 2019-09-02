@@ -17,6 +17,7 @@ class ReviewsController extends Controller
         $this->hotelsServiceClass = new HotelsService();
     }
 
+    // Load add review page
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -33,6 +34,7 @@ class ReviewsController extends Controller
         }
     }
 
+    // Delete review and reload hotels list page to show new hotel average score and order
     public function delete($id)
     {
         $deleteResponse = $this->reviewsServiceClass->delete($id);

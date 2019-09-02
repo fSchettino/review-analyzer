@@ -14,12 +14,14 @@ class ServicesController extends Controller
         $this->servicesServiceClass = new ServicesService();
     }
 
+    // Load index page with services list
     public function index()
     {
         $services = $this->servicesServiceClass->showAll();
         return view('services.index', ['services' => $services]);
     }
 
+    // Load add service page
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -35,6 +37,7 @@ class ServicesController extends Controller
         }
     }
 
+    // Load update service page
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -51,6 +54,7 @@ class ServicesController extends Controller
         }
     }
 
+    // Delete service and reload services list page
     public function delete($id)
     {
         $deleteResponse = $this->servicesServiceClass->delete($id);

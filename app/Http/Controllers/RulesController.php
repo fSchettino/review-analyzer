@@ -17,12 +17,14 @@ class RulesController extends Controller
         $this->servicesServiceClass = new ServicesService();
     }
 
+    // Load index page with rules list
     public function index()
     {
         $rules = $this->rulesServiceClass->showAll();
         return view('rules.index', ['rules' => $rules]);
     }
 
+    // Load add rule page
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -39,6 +41,7 @@ class RulesController extends Controller
         }
     }
 
+    // Load update rule page
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -56,6 +59,7 @@ class RulesController extends Controller
         }
     }
 
+    // Delete rule and reload rules list page
     public function delete($id)
     {
         $deleteResponse = $this->rulesServiceClass->delete($id);
