@@ -9,7 +9,18 @@
     </div>
     <div class="row margin-top-30">
         <div class="col-md-12 text-center">
-            <p>Semantic review analisys software for hotels and hotel services.</p>
+            <p>Semantic review analisys software for hotels reviews.</p>
+        </div>
+    </div>
+    <div class="row margin-top-30">
+        <div class="col-md-4 offset-4">
+            <ol>
+                <li>Create some keywords</li>
+                <li>Create some hotel services</li>
+                <li>Create some rules</li>
+                <li>Create a hotels</li>
+                <li>Create a hotel review</li>
+            </ol>
         </div>
     </div>
 </div>
