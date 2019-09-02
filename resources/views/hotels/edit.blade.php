@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Hotel description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3">{{ $hotel['description'] }}</textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10">{{ $hotel['description'] }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="rooms">Rooms</label>

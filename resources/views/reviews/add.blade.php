@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Review</label>
-                    <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10"></textarea>
                 </div>
                 <a class="btn btn-outline-primary" href="{{ url('/hotels') }}" role="button">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>

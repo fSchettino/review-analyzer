@@ -30,8 +30,8 @@
                         <td>{{ $hotel['id'] }}</td>
                         <td>{{ $hotel['name'] }}</td>
                         <td>{{ count($hotel['reviews']) }}</td>
-                            @if ($hotel['avgScore'] != null)
-                                <td>{{ $hotel['avgScore'] }}</td>
+                            @if ($hotel['score'] != null)
+                                <td>{{ $hotel['score'] }}</td>
                             @else
                                 <td>0</td>
                             @endif

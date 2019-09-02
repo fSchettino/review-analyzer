@@ -23,7 +23,7 @@ class HotelsService
 
     public function showAll()
     {
-        $hotels = $this->hotelModel->all()->load('services')->load('rules');
+        $hotels = $this->hotelModel->all()->sortByDesc("score")->load('services')->load('rules');
         return $hotels;
     }
 
@@ -41,6 +41,7 @@ class HotelsService
             $this->hotelModel->name = $request->name;
             $this->hotelModel->description = $request->description;
             $this->hotelModel->rooms = $request->rooms;
+            $this->hotelModel->score = 0;
             $this->hotelModel->save();
 
             $services = $request->services;
@@ -124,5 +125,23 @@ class HotelsService
         $services = $this->servicesServiceClass->showAll();
         $rules = $this->rulesServiceClass->showAll();
         return ['services' => $services, 'rules' => $rules];
+    }
+
+    public function updateHotelScore($id)
+    {
+        $hotel = $this->hotelModel->find($id);
+        $hotel->load('reviews');
+
+        $reviewsCount = count($hotel->reviews);
+        $scoreSum = 0;
+        $hotelScore = 0;
+
+        foreach ($hotel->reviews as $review) {
+            $scoreSum+= $review->score;
+        }
+
+        $hotelScore = $scoreSum/$reviewsCount;
+        $hotel->score = $hotelScore;
+        $hotel->save();
     }
 }
