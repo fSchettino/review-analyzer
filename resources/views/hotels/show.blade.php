@@ -57,7 +57,13 @@
                         <dt class="col-md-8">Description</dt>
                         <dd class="col-md-8">{{ $hotelReview['description'] }}</dd>
                         <dt class="col-md-8">Review score</dt>
-                        <dd class="col-md-8">{{ $hotelReview['score'] }}</dd>
+                        @if ($hotelReview['score'] == 0)
+                            <dd class="col-md-8 text-warning"><i class="fas fa-meh"></i> {{ $hotelReview['score'] }}</dd>
+                        @elseif ($hotelReview['score'] > 0)
+                            <dd class="col-md-8 text-success"><i class="fas fa-smile"></i> {{ $hotelReview['score'] }}</dd>
+                        @else
+                            <dd class="col-md-8 text-danger"><i class="fas fa-frown"></i> {{ $hotelReview['score'] }}</dd>
+                        @endif
                     </dl>
                     <a class="btn btn-outline-primary btn-sm" href="{{ url('/review/delete', $hotelReview['id']) }}" role="button">Delete Review</a>
                     <hr>

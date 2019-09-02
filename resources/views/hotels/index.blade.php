@@ -26,7 +26,13 @@
                 </thead>
                 <tbody>
                     @foreach($hotels as $hotel)
-                    <tr>
+                    @if ($hotel['score'] == 0)
+                    <tr class="table-warning">
+                    @elseif ($hotel['score'] > 0)
+                    <tr class="table-success">
+                    @else
+                    <tr class="table-danger">
+                    @endif
                         <td>{{ $hotel['id'] }}</td>
                         <td>{{ $hotel['name'] }}</td>
                         <td>{{ count($hotel['reviews']) }}</td>
