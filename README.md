@@ -1,6 +1,6 @@
 # Review Analyzer
 
-Semantic review analisys software for hotels and hotel services.<br>
+Semantic review analisys software for hotels reviews.<br>
 
 ## Built With:
 
