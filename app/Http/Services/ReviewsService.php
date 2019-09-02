@@ -47,6 +47,9 @@ class ReviewsService
             $review->delete();
             DB::commit();
 
+            // update hotel score
+            $this->hotelsServiceClass->updateHotelScore($review->hotel->id);
+
             return 'Review deleted';
         } catch (\Throwable $th) {
             DB::rollback();
@@ -90,25 +93,26 @@ class ReviewsService
                         $keywordType = $keyword->type;
                         $keywordName = strtolower($keyword->name);
                         $keywordWeight = $keyword->weight;
-                        echo('keywordType: ' . $keywordType . '<br>');
+                        echo('keywordType: ' . $keywordType . ' ' . 'keywordName: ' . $keywordName . ' ' . 'keywordWeight: ' . $keywordWeight . '<br>');
 
                         // scan review text data looking for rule keywords
                         foreach ($reviewTextDataProcessed as $word) {
                             if ($keywordName == strtolower($word)) {
                                 $tempScoreCount+= $keywordWeight;
-                            }
 
-                            if ($keywordType == 'positive') {
-                                $positiveWordCount+= 1;
-                                $positiveScore+= $tempScoreCount;
-                                $tempScoreCount = 0;
-                            } elseif ($keywordType == 'negative') {
-                                $negativeWordCount+= 1;
-                                $negativeScore+= $tempScoreCount;
-                                $tempScoreCount = 0;
+                                if ($keywordType == 'positive') {
+                                    $positiveWordCount+= 1;
+                                    $positiveScore+= $tempScoreCount;
+                                } elseif ($keywordType == 'negative') {
+                                    $negativeWordCount+= 1;
+                                    $negativeScore+= $tempScoreCount;
+                                }
                             }
+                            $tempScoreCount = 0;
                         }
                     }
+                    echo('positiveWordCount ' . $positiveWordCount);
+                    echo('negativeWordCount ' . $negativeWordCount);
                     // Break scan and pass to next service
                     break;
                 }

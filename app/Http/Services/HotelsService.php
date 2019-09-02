@@ -136,12 +136,17 @@ class HotelsService
         $scoreSum = 0;
         $hotelScore = 0;
 
-        foreach ($hotel->reviews as $review) {
-            $scoreSum+= $review->score;
-        }
+        if ($reviewsCount != 0) {
+            foreach ($hotel->reviews as $review) {
+                $scoreSum+= $review->score;
+            }
 
-        $hotelScore = $scoreSum/$reviewsCount;
-        $hotel->score = $hotelScore;
-        $hotel->save();
+            $hotelScore = $scoreSum/$reviewsCount;
+            $hotel->score = $hotelScore;
+            $hotel->save();
+        } else {
+            $hotel->score = 0;
+            $hotel->save();
+        }
     }
 }
