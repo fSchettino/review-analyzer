@@ -18,11 +18,11 @@
             <input type="hidden" class="form-control" id="hotelId" name="hotelId" value="{{ $hotel['id'] }}">
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title">
+                    <input type="text" class="form-control" id="title" name="title" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Review</label>
-                    <textarea class="form-control" id="description" name="description" rows="10"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10" required></textarea>
                 </div>
                 <a class="btn btn-outline-primary" href="{{ url('/hotels') }}" role="button">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>

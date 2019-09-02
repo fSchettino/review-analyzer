@@ -84,19 +84,19 @@ class ReviewsService
         foreach ($hotelInfo->rules as $rule) {
             $ruleInfo = $this->rulesServiceClass->show($rule->id);
             $ruleService = strtolower($ruleInfo->service->name);
-            echo('ruleService: ' . $ruleService . '<br>');
+
             // Check if rule service appears in the review
             foreach ($reviewTextDataProcessed as $word) {
                 if ($ruleService != strtolower($word)) {
                     $serviceMatch = false;
                 } else {
                     $serviceMatch = true;
+
                     // If rule service appears in the review, get rule keywords info
                     foreach ($ruleInfo->keywords as $keyword) {
                         $keywordType = $keyword->type;
                         $keywordName = strtolower($keyword->name);
                         $keywordWeight = $keyword->weight;
-                        echo('keywordType: ' . $keywordType . ' | ' . 'keywordName: ' . $keywordName . ' | ' . 'keywordWeight: ' . $keywordWeight . '<br>');
 
                         // Scan review looking for current keyword
                         foreach ($reviewTextDataProcessed as $word) {
@@ -114,9 +114,7 @@ class ReviewsService
                             $tempScoreCount = 0;
                         }
                     }
-                    echo('positiveWordCount ' . $positiveWordCount . '<br>');
-                    echo('negativeWordCount ' . $negativeWordCount . '<br>');
-                    // Break scan and pass to next rule service
+                    // Break scan and follow with next rule service
                     break;
                 }
             }
@@ -128,12 +126,8 @@ class ReviewsService
         if ($negativeWordCount > 1) {
             $negativeScore+= 2;
         }
-        echo('Positive score: ' . $positiveScore . '<br>');
-        echo('Negative score: ' . $negativeScore . '<br>');
 
         $reviewScore = $positiveScore - $negativeScore;
-
-        echo('Review score: ' . $reviewScore . '<br>');
         
         return $reviewScore;
     }

@@ -17,7 +17,7 @@
             @csrf
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" placeholder="e.g. Swimming pool" id="name" name="name">
+                    <input type="text" class="form-control" placeholder="e.g. Restaurant" id="name" name="name" required>
                 </div>
                 <a class="btn btn-outline-primary" href="{{ url('/services') }}" role="button">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>

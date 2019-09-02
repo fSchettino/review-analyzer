@@ -17,8 +17,8 @@
             <ol>
                 <li>Create some keywords</li>
                 <li>Create some hotel services</li>
-                <li>Create some rules</li>
-                <li>Create a hotels</li>
+                <li>Create a rule</li>
+                <li>Create a hotel</li>
                 <li>Create a hotel review</li>
             </ol>
         </div>

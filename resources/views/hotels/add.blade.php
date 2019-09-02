@@ -17,15 +17,15 @@
             @csrf
                 <div class="form-group">
                     <label for="name">Hotel name</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Hotel description</label>
-                    <textarea class="form-control" id="description" name="description" rows="10"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="rooms">Rooms</label>
-                    <input type="number" min="1" class="form-control col-md-2" id="rooms" name="rooms">
+                    <input type="number" min="1" class="form-control col-md-2" id="rooms" name="rooms" required>
                 </div>
                 <br>
                 <!-- Start hotel services list -->

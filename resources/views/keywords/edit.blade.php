@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" placeholder="e.g. good" id="name" name="name" value="{{ $keyword['name'] }}">
+                    <input type="text" class="form-control" placeholder="e.g. good" id="name" name="name" value="{{ $keyword['name'] }}" required>
                 </div>
                 <div class="form-group">
                     <label for="weight">Weight</label>
