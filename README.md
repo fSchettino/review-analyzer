@@ -12,12 +12,13 @@ Bootstrap 4<br>
 
 ## Installing:
 
-1. Clone this repository in your machine.
+1. Clone repository.
 2. Create a .env file using as reference the .env.example file you can find in the project root directory.
-3. Navigate to review-analyzer folder.
-4. Install project dependencies > "composer install".
-5. Generate encryption key > "php artisan key:generate".
-6. Create a new schema in your MySQL DDBB named "review-analyzer".
-7. Execute migration > "php artisan migrate".
-8. Run project > "php artisan serve".
-9. Go to http://localhost:8000/.
+3. Set your .nev variables.
+4. Navigate to review-analyzer folder.
+5. Install project dependencies > "composer install".
+6. Generate encryption key > "php artisan key:generate".
+7. Create a new schema in your MySQL DDBB named "review-analyzer".
+8. Execute migration > "php artisan migrate".
+9. Run project > "php artisan serve".
+10. Go to http://localhost:8000/.
