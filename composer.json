@@ -7,6 +7,12 @@
         "laravel"
     ],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabio Schettino",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",
