@@ -62,13 +62,6 @@ class ReviewsService
     // Semantic analysis algorithm
     public function analyzeReview($hotelId, $reviewTitle, $reviewDescription)
     {
-        // Process review text data (title and description) and store each word as an array item
-        $reviewTextData = $reviewTitle . ' ' . $reviewDescription;
-        $specialChars = ['  ', ' ', ';', ',', ':', '|', '!', '¡', '"', '\'', '£', '$', '%', '&', '/', '\\', '(', ')', '=', '?', '¿', '*', '+', '-', '@', '€', '<', '>', '-', '_', '#', '°', '[', ']', '{', '}', '§', '`'];
-        $reviewTextDataProcessingStep1 = str_replace($specialChars, ' ', $reviewTextData);
-        $reviewTextDataProcessingStep2 = str_replace('  ', ' ', $reviewTextDataProcessingStep1);
-        $reviewTextDataProcessed = explode(' ', $reviewTextDataProcessingStep2);
-
         // Get hotel info
         $hotelInfo = $this->hotelsServiceClass->show($hotelId);
 
@@ -79,64 +72,80 @@ class ReviewsService
         $tempScoreCount = 0;
         $positiveScore = 0;
         $negativeScore = 0;
+        $phraseScore = 0;
         $reviewScore = 0;
+        $bonusScore = 2;
+        $specialChars = ['  ', ' ', ';', ',', ':', '|', '!', '¡', '"', '\'', '£', '$', '%', '&', '/', '\\', '(', ')', '=', '?', '¿', '*', '+', '-', '@', '€', '<', '>', '-', '_', '#', '°', '[', ']', '{', '}', '§', '`'];
 
-        // Analyze review text based on hotel rules
-        foreach ($hotelInfo->rules as $rule) {
-            $ruleInfo = $this->rulesServiceClass->show($rule->id);
-            $ruleService = strtolower($ruleInfo->service->name);
+        // Split review text data (title and description) generating an array of phrases
+        $reviewTextData = $reviewTitle . '. ' . $reviewDescription;
+        $reviewPhrases = \preg_split('/[.]/', $reviewTextData);
 
-            // Check if rule service appears in the review
-            foreach ($reviewTextDataProcessed as $word) {
-                if ($ruleService != strtolower($word)) {
-                    $serviceMatch = false;
-                } else {
-                    $serviceMatch = true;
-                    // If rule service appears in the review, get rule keywords info
-                    foreach ($ruleInfo->keywords as $keyword) {
-                        $keywordType = $keyword->type;
-                        $keywordName = strtolower($keyword->name);
-                        $keywordWeight = $keyword->weight;
+        // Process each phrase and generate an array of words
+        foreach ($reviewPhrases as $phrase) {
+            $phraseStr = $phrase;
+            $phraseStrProcessingStep1 = str_replace($specialChars, ' ', $phraseStr);
+            $phraseStrProcessingStep2 = str_replace('  ', ' ', $phraseStrProcessingStep1);
+            $phraseStrProcessed = explode(' ', $phraseStrProcessingStep2);
 
-                        // Scan review looking for current keyword
-                        foreach ($reviewTextDataProcessed as $word) {
-                            if ($keywordName == strtolower($word)) {
-                                $tempScoreCount+= $keywordWeight;
+            // Analyze phrase based on hotel rules
+            foreach ($hotelInfo->rules as $rule) {
+                $ruleInfo = $this->rulesServiceClass->show($rule->id);
+                $ruleService = strtolower($ruleInfo->service->name);
 
-                                if ($keywordType == 'positive') {
-                                    $positiveWordCount+= 1;
-                                    $positiveScore+= $tempScoreCount;
-                                } elseif ($keywordType == 'negative') {
-                                    $negativeWordCount+= 1;
-                                    $negativeScore+= $tempScoreCount;
+                // Check if rule service appears in the phrase
+                foreach ($phraseStrProcessed as $word) {
+                    if ($ruleService != strtolower($word)) {
+                        $serviceMatch = false;
+                    } else {
+                        $serviceMatch = true;
+                        // If rule service appears in the phrase, get rule keywords info
+                        foreach ($ruleInfo->keywords as $keyword) {
+                            $keywordType = $keyword->type;
+                            $keywordName = strtolower($keyword->name);
+                            $keywordWeight = $keyword->weight;
+
+                            // Scan phrase looking for current keyword
+                            foreach ($phraseStrProcessed as $word) {
+                                if ($keywordName == strtolower($word)) {
+                                    $tempScoreCount+= $keywordWeight;
+
+                                    if ($keywordType == 'positive') {
+                                        $positiveWordCount+= 1;
+                                        $positiveScore+= $tempScoreCount;
+                                    } elseif ($keywordType == 'negative') {
+                                        $negativeWordCount+= 1;
+                                        $negativeScore+= $tempScoreCount;
+                                    }
+                                    $tempScoreCount = 0;
                                 }
                             }
-                            $tempScoreCount = 0;
+
+                            // If phrase contains both positive and negative keywords phrase is declared null
+                            if (($positiveScore >= 1) && ($negativeScore >= 1)) {
+                                $phraseScore = 0;
+                            } else {
+                                $reviewScore+= $positiveScore;
+                                $reviewScore-= $negativeScore;
+                                $positiveScore = 0;
+                                $negativeScore = 0;
+                                
+                                // If phrase contains more than 1 positive keywords add +2 points to review score for curren phrase
+                                if ($positiveWordCount > 1) {
+                                    $reviewScore+= $bonusScore;
+                                    echo('review score: ' . $positiveScore . '<br>');
+                                }
+                                // If phrase contains more than 1 negative keywords decrease -2 points from review score for curren phrase
+                                if ($negativeWordCount > 1) {
+                                    $reviewScore-= $bonusScore;
+                                    echo('review score: ' . $negativeScore . '<br>');
+                                }
+                            }
                         }
                     }
-                    // Break scan and follow with next rule service
-                    break;
                 }
             }
         }
-
-        // If review contains both positive and negative Keywords review score is set to 0
-        // and review is declared null witch means that deosn't will be taked into account during
-        // hotel average score calculation
-        if (($positiveScore >= 1) && ($negativeScore >= 1)) {
-            $reviewScore = 0;
-            return $reviewScore;
-        }
-
-        if ($positiveWordCount > 1) {
-            $positiveScore+= 2;
-        }
-        if ($negativeWordCount > 1) {
-            $negativeScore+= 2;
-        }
-
-        $reviewScore = $positiveScore - $negativeScore;
-        
         return $reviewScore;
     }
 }

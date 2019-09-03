@@ -27,7 +27,7 @@
                 <tbody>
                     @foreach($hotels as $hotel)
                     @if ($hotel['score'] == 0)
-                    <tr class="table-warning">
+                    <tr>
                     @elseif ($hotel['score'] > 0)
                     <tr class="table-success">
                     @else

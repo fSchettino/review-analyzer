@@ -138,24 +138,15 @@ class HotelsService
     {
         $hotel = $this->hotelModel->find($id);
 
-        $validReviewsCounter = 0;
-
-        foreach ($hotel->reviews as $review) {
-            if ($review->score != 0) {
-                $validReviewsCounter++;
-            }
-        }
-        echo($validReviewsCounter);
-
         $scoreSum = 0;
         $hotelScore = 0;
+        $hotelReviewsCount = count($hotel->reviews);
 
-        if ($validReviewsCounter != 0) {
+        if (count($hotel->reviews) != 0) {
             foreach ($hotel->reviews as $review) {
                 $scoreSum+= $review->score;
             }
-
-            $hotelScore = $scoreSum/$validReviewsCounter;
+            $hotelScore = $scoreSum/$hotelReviewsCount;
             $hotel->score = $hotelScore;
             $hotel->save();
         } else {

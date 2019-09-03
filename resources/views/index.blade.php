@@ -13,14 +13,16 @@
         </div>
     </div>
     <div class="row margin-top-30">
-        <div class="col-md-4 offset-4">
-            <ol>
-                <li>Create some keywords</li>
-                <li>Create some hotel services</li>
-                <li>Create a rule</li>
-                <li>Create a hotel</li>
-                <li>Create a hotel review</li>
-            </ol>
+        <div class="col-md-4 offset-4 text-center">
+                <a href="{{ url('/keywords') }}" role="button">Create some keywords</a><br>
+                <a href="{{ url('/services') }}" role="button">Create some hotel services</a><br>
+                <a href="{{ url('/rules') }}" role="button">Create a rule</a><br>
+                <a href="{{ url('/hotels') }}" role="button">Create a hotel</a>
+        </div>
+    </div>
+    <div class="row margin-top-30">
+        <div class="col-md-12 text-center">
+        <p>and then create a hotel review</p>
         </div>
     </div>
 </div>
