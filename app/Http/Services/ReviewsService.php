@@ -116,7 +116,7 @@ class ReviewsService
                                     } elseif ($keywordType == 'negative') {
                                         $negativeWordCount+= 1;
                                         $negativeScore+= $tempScoreCount;
-                                        $phraseScore-= $positiveScore;
+                                        $phraseScore-= $negativeScore;
                                     }
                                     $tempScoreCount = 0;
                                 }
