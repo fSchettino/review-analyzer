@@ -109,18 +109,18 @@ class ReviewsService
                             foreach ($phraseStrProcessed as $word) {
                                 if ($keywordName == strtolower($word)) {
                                     $tempScoreCount+= $keywordWeight;
-
                                     if ($keywordType == 'positive') {
                                         $positiveWordCount+= 1;
                                         $positiveScore+= $tempScoreCount;
+                                        $phraseScore+= $positiveScore;
                                     } elseif ($keywordType == 'negative') {
                                         $negativeWordCount+= 1;
                                         $negativeScore+= $tempScoreCount;
+                                        $phraseScore-= $positiveScore;
                                     }
                                     $tempScoreCount = 0;
                                 }
                             }
-
                             // echo('positive score: ' . $positiveScore . '<br>');
                             // echo('negative score: ' . $negativeScore . '<br>');
                         }
@@ -159,6 +159,7 @@ class ReviewsService
                     $negativeScore = 0;
                 }
             }
+            $reviewScore+= $phraseScore;
             $phraseScore = 0;
         }
         return $reviewScore;
