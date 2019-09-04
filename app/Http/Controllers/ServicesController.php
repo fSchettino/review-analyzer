@@ -30,9 +30,9 @@ class ServicesController extends Controller
             $insertResponse = $this->servicesServiceClass->add($request);
             if ($insertResponse == 'Service inserted') {
                 $services = $this->servicesServiceClass->showAll();
-                return view('services.index', ['services' => $services]);
+                return redirect('services')->with('services', $services);
             } else {
-                return view('error')->with('error', $insertResponse);
+                return redirect('error')->with('error', $insertResponse);
             };
         }
     }
@@ -47,9 +47,9 @@ class ServicesController extends Controller
             $updateResponse = $this->servicesServiceClass->edit($request);
             if ($updateResponse == 'Service updated') {
                 $services = $this->servicesServiceClass->showAll();
-                return view('services.index', ['services' => $services]);
+                return redirect('services')->with('services', $services);
             } else {
-                return view('error')->with('error', $updateResponse);
+                return redirect('error')->with('error', $updateResponse);
             };
         }
     }
@@ -60,9 +60,9 @@ class ServicesController extends Controller
         $deleteResponse = $this->servicesServiceClass->delete($id);
         if ($deleteResponse == 'Service deleted') {
             $services = $this->servicesServiceClass->showAll();
-            return view('services.index', ['services' => $services]);
+            return redirect('services')->with('services', $services);
         } else {
-            return view('error')->with('error', $deleteResponse);
+            return redirect('error')->with('error', $deleteResponse);
         };
     }
 }

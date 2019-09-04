@@ -27,9 +27,9 @@ class ReviewsController extends Controller
             $insertResponse = $this->reviewsServiceClass->add($request);
             if ($insertResponse == 'Review inserted') {
                 $hotels = $this->hotelsServiceClass->showAll();
-                return view('hotels.index', ['hotels' => $hotels]);
+                return redirect('hotels')->with('hotels', $hotels);
             } else {
-                return view('error')->with('error', $insertResponse);
+                return redirect('error')->with('error', $insertResponse);
             };
         }
     }
@@ -40,9 +40,9 @@ class ReviewsController extends Controller
         $deleteResponse = $this->reviewsServiceClass->delete($id);
         if ($deleteResponse == 'Review deleted') {
             $hotels = $this->hotelsServiceClass->showAll();
-            return view('hotels.index', ['hotels' => $hotels]);
+            return redirect('hotels')->with('hotels', $hotels);
         } else {
-            return view('error')->with('error', $deleteResponse);
+            return redirect('error')->with('error', $deleteResponse);
         };
     }
 }

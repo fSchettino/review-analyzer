@@ -38,9 +38,9 @@ class HotelsController extends Controller
             $insertResponse = $this->hotelsServiceClass->add($request);
             if ($insertResponse == 'Hotel inserted') {
                 $hotels = $this->hotelsServiceClass->showAll();
-                return view('hotels.index', ['hotels' => $hotels]);
+                return redirect('hotels')->with('hotels', $hotels);
             } else {
-                return view('error')->with('error', $insertResponse);
+                return redirect('error')->with('error', $insertResponse);
             };
         }
     }
@@ -56,9 +56,9 @@ class HotelsController extends Controller
             $updateResponse = $this->hotelsServiceClass->edit($request);
             if ($updateResponse == 'Hotel updated') {
                 $hotels = $this->hotelsServiceClass->showAll();
-                return view('hotels.index', ['hotels' => $hotels]);
+                return redirect('hotels')->with('hotels', $hotels);
             } else {
-                return view('error')->with('error', $updateResponse);
+                return redirect('error')->with('error', $updateResponse);
             };
         }
     }
@@ -69,9 +69,9 @@ class HotelsController extends Controller
         $deleteResponse = $this->hotelsServiceClass->delete($id);
         if ($deleteResponse == 'Hotel deleted') {
             $hotels = $this->hotelsServiceClass->showAll();
-            return view('hotels.index', ['hotels' => $hotels]);
+            return redirect('hotels')->with('hotels', $hotels);
         } else {
-            return view('error')->with('error', $deleteResponse);
+            return redirect('error')->with('error', $deleteResponse);
         };
     }
 }

@@ -34,9 +34,9 @@ class RulesController extends Controller
             $insertResponse = $this->rulesServiceClass->add($request);
             if ($insertResponse == 'Rule inserted') {
                 $rules = $this->rulesServiceClass->showAll();
-                return view('rules.index', ['rules' => $rules]);
+                return redirect('rules')->with('rules', $rules);
             } else {
-                return view('error')->with('error', $insertResponse);
+                return redirect('error')->with('error', $insertResponse);
             };
         }
     }
@@ -52,9 +52,9 @@ class RulesController extends Controller
             $updateResponse = $this->rulesServiceClass->edit($request);
             if ($updateResponse == 'Rule updated') {
                 $rules = $this->rulesServiceClass->showAll();
-                return view('rules.index', ['rules' => $rules]);
+                return redirect('rules')->with('rules', $rules);
             } else {
-                return view('error')->with('error', $updateResponse);
+                return redirect('error')->with('error', $updateResponse);
             };
         }
     }
@@ -65,9 +65,9 @@ class RulesController extends Controller
         $deleteResponse = $this->rulesServiceClass->delete($id);
         if ($deleteResponse == 'Rule deleted') {
             $rules = $this->rulesServiceClass->showAll();
-            return view('rules.index', ['rules' => $rules]);
+            return redirect('rules')->with('rules', $rules);
         } else {
-            return view('error')->with('error', $deleteResponse);
+            return redirect('error')->with('error', $deleteResponse);
         };
     }
 }

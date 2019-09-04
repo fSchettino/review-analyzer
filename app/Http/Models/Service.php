@@ -22,6 +22,6 @@ class Service extends Model
     //each service belongs to many rules
     public function rules()
     {
-        return $this->belongsToMany('App\Http\Models\Rule');
+        return $this->hasMany('App\Http\Models\Rule');
     }
 }

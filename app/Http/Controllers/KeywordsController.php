@@ -30,9 +30,9 @@ class KeywordsController extends Controller
             $insertResponse = $this->keywordsServiceClass->add($request);
             if ($insertResponse == 'Keyword inserted') {
                 $keywords = $this->keywordsServiceClass->showAll();
-                return view('keywords.index', ['keywords' => $keywords]);
+                return redirect('keywords')->with('keywords', $keywords);
             } else {
-                return view('error')->with('error', $insertResponse);
+                return redirect('error')->with('error', $insertResponse);
             };
         }
     }
@@ -47,9 +47,9 @@ class KeywordsController extends Controller
             $updateResponse = $this->keywordsServiceClass->edit($request);
             if ($updateResponse == 'Keyword updated') {
                 $keywords = $this->keywordsServiceClass->showAll();
-                return view('keywords.index', ['keywords' => $keywords]);
+                return redirect('keywords')->with('keywords', $keywords);
             } else {
-                return view('error')->with('error', $updateResponse);
+                return redirect('error')->with('error', $updateResponse);
             };
         }
     }
@@ -60,9 +60,9 @@ class KeywordsController extends Controller
         $deleteResponse = $this->keywordsServiceClass->delete($id);
         if ($deleteResponse == 'Keyword deleted') {
             $keywords = $this->keywordsServiceClass->showAll();
-            return view('keywords.index', ['keywords' => $keywords]);
+            return redirect('keywords')->with('keywords', $keywords);
         } else {
-            return view('error')->with('error', $deleteResponse);
+            return redirect('error')->with('error', $deleteResponse);
         };
     }
 }
