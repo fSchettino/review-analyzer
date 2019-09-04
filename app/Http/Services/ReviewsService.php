@@ -121,8 +121,6 @@ class ReviewsService
                                     $tempScoreCount = 0;
                                 }
                             }
-                            // echo('positive score: ' . $positiveScore . '<br>');
-                            // echo('negative score: ' . $negativeScore . '<br>');
                         }
                     }
                 }
@@ -134,13 +132,11 @@ class ReviewsService
                 $negativeWordCount = 0;
                 $positiveScore = 0;
                 $negativeScore = 0;
-            // echo('both positive and negative keywords' . '<br>');
             } else {
                 // If phrase contains more than 1 positive keywords add +2 points to review score for curren phrase
                 if ($positiveWordCount > 1) {
                     $positiveScore+= $bonusScore;
                     $reviewScore+= $positiveScore;
-                    // echo('positive bonus added - positive score: ' . $positiveScore . '<br>');
                     $phraseScore = 0;
                     $positiveWordCount = 0;
                     $negativeWordCount = 0;
@@ -151,7 +147,6 @@ class ReviewsService
                 if ($negativeWordCount > 1) {
                     $negativeScore+= $bonusScore;
                     $reviewScore-= $negativeScore;
-                    // echo('negative bonus added - negative score: ' . $negativeScore . '<br>');
                     $phraseScore = 0;
                     $positiveWordCount = 0;
                     $negativeWordCount = 0;
