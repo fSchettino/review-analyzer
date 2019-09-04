@@ -19,7 +19,7 @@ class Service extends Model
         return $this->belongsToMany('App\Http\Models\Hotel');
     }
 
-    //each service belongs to many rules
+    //each service has many rules
     public function rules()
     {
         return $this->hasMany('App\Http\Models\Rule');
