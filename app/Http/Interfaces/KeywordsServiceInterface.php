@@ -2,7 +2,7 @@
 
 namespace App\Http\Interfaces;
 
-interface KeywordsServiceInterface
+interface KeywordsServiceInterface extends BaseInterface
 {
     public function all();
 

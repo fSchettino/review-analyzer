@@ -2,7 +2,7 @@
 
 namespace App\Http\Interfaces;
 
-interface KeywordRepositoryInterface
+interface KeywordRepositoryInterface extends BaseInterface
 {
     public function all();
 
