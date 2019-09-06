@@ -3,41 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Services\HotelsService;
+
+use App\Http\Interfaces\HotelsServiceInterface;
 
 class HotelsController extends Controller
 {
-    protected $hotelsServiceClass;
+    protected $hotelsServiceInterface;
 
-    public function __construct()
+    public function __construct(HotelsServiceInterface $hotelsServiceInterface)
     {
-        $this->hotelsServiceClass = new HotelsService();
+        $this->hotelsServiceInterface = $hotelsServiceInterface;
     }
 
     // Load index page with hotels list
-    public function index()
+    public function all()
     {
-        $hotels = $this->hotelsServiceClass->showAll();
+        $hotels = $this->hotelsServiceInterface->all();
         return view('hotels.index', ['hotels' => $hotels]);
     }
 
     // Load hotel detail page
-    public function show(Request $request)
+    public function find(Request $request)
     {
-        $hotel = $this->hotelsServiceClass->show($request->id);
+        $hotelId = $request->id;
+        $hotel = $this->hotelsServiceInterface->find($hotelId);
         return view('hotels.show', ['hotel' => $hotel]);
     }
 
     // Load add hotel page
-    public function add(Request $request)
+    public function create(Request $request)
     {
+        $data = ['name' => $request->name, 'description' => $request->description, 'rooms' => $request->rooms, 'services' => $request->services, 'rules' => $request->rules];
+        
         if ($request->isMethod('get')) {
-            $getAddViewHotelData = $this->hotelsServiceClass->getAddViewHotelData();
+            $getAddViewHotelData = $this->hotelsServiceInterface->getAddViewHotelData();
             return view('hotels.add', ['services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
         } elseif ($request->isMethod('post')) {
-            $insertResponse = $this->hotelsServiceClass->add($request);
+            $insertResponse = $this->hotelsServiceInterface->create($data);
             if ($insertResponse == 'Hotel inserted') {
-                $hotels = $this->hotelsServiceClass->showAll();
+                $hotels = $this->hotelsServiceInterface->all();
                 return redirect('hotels')->with('hotels', $hotels);
             } else {
                 return redirect('error')->with('error', $insertResponse);
@@ -48,14 +52,17 @@ class HotelsController extends Controller
     // Load update hotel page
     public function edit(Request $request)
     {
+        $hotelId = $request->id;
+        $data = ['name' => $request->name, 'description' => $request->description, 'rooms' => $request->rooms, 'services' => $request->services, 'rules' => $request->rules];
+
         if ($request->isMethod('get')) {
-            $getAddViewHotelData = $this->hotelsServiceClass->getAddViewHotelData();
-            $hotel = $this->hotelsServiceClass->show($request->id);
+            $hotel = $this->hotelsServiceInterface->find($hotelId);
+            $getAddViewHotelData = $this->hotelsServiceInterface->getAddViewHotelData();
             return view('hotels.edit', ['hotel' => $hotel, 'services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
         } elseif ($request->isMethod('post')) {
-            $updateResponse = $this->hotelsServiceClass->edit($request);
+            $updateResponse = $this->hotelsServiceInterface->edit($data, $hotelId);
             if ($updateResponse == 'Hotel updated') {
-                $hotels = $this->hotelsServiceClass->showAll();
+                $hotels = $this->hotelsServiceInterface->all();
                 return redirect('hotels')->with('hotels', $hotels);
             } else {
                 return redirect('error')->with('error', $updateResponse);
@@ -66,9 +73,9 @@ class HotelsController extends Controller
     // Delete hotel and reload hotels list page
     public function delete($id)
     {
-        $deleteResponse = $this->hotelsServiceClass->delete($id);
+        $deleteResponse = $this->hotelsServiceInterface->delete($id);
         if ($deleteResponse == 'Hotel deleted') {
-            $hotels = $this->hotelsServiceClass->showAll();
+            $hotels = $this->hotelsServiceInterface->all();
             return redirect('hotels')->with('hotels', $hotels);
         } else {
             return redirect('error')->with('error', $deleteResponse);

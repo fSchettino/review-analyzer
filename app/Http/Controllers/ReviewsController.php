@@ -3,30 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Services\ReviewsService;
-use App\Http\Services\HotelsService;
+
+use App\Http\Interfaces\ReviewsServiceInterface;
+use App\Http\Interfaces\HotelsServiceInterface;
 
 class ReviewsController extends Controller
 {
-    protected $reviewsServiceClass;
-    protected $hotelsServiceClass;
+    protected $ReviewsServiceInterface;
+    protected $hotelsServiceInterface;
 
-    public function __construct()
+    public function __construct(ReviewsServiceInterface $reviewsServiceInterface, HotelsServiceInterface $hotelsServiceInterface)
     {
-        $this->reviewsServiceClass = new ReviewsService();
-        $this->hotelsServiceClass = new HotelsService();
+        $this->reviewsServiceInterface = $reviewsServiceInterface;
+        $this->hotelsServiceInterface = $hotelsServiceInterface;
     }
 
     // Load add review page
-    public function add(Request $request)
+    public function create(Request $request)
     {
         if ($request->isMethod('get')) {
-            $hotelData = $this->hotelsServiceClass->show($request->hotelId);
+            $hotelData = $this->hotelsServiceInterface->find($request->hotelId);
             return view('reviews.add', ['hotel' => $hotelData]);
         } elseif ($request->isMethod('post')) {
-            $insertResponse = $this->reviewsServiceClass->add($request);
+            $data = ['hotelId' => $request->hotelId, 'title' => $request->title, 'description' => $request->description];
+            $insertResponse = $this->reviewsServiceInterface->create($data);
             if ($insertResponse == 'Review inserted') {
-                $hotels = $this->hotelsServiceClass->showAll();
+                $hotels = $this->hotelsServiceInterface->all();
                 return redirect('hotels')->with('hotels', $hotels);
             } else {
                 return redirect('error')->with('error', $insertResponse);
@@ -37,9 +39,9 @@ class ReviewsController extends Controller
     // Delete review and reload hotels list page to show new hotel average score and order
     public function delete($id)
     {
-        $deleteResponse = $this->reviewsServiceClass->delete($id);
+        $deleteResponse = $this->reviewsServiceInterface->delete($id);
         if ($deleteResponse == 'Review deleted') {
-            $hotels = $this->hotelsServiceClass->showAll();
+            $hotels = $this->hotelsServiceInterface->all();
             return redirect('hotels')->with('hotels', $hotels);
         } else {
             return redirect('error')->with('error', $deleteResponse);

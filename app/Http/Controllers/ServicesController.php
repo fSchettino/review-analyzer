@@ -3,33 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Services\ServicesService;
+
+use App\Http\Interfaces\ServicesServiceInterface;
 
 class ServicesController extends Controller
 {
-    protected $servicesServiceClass;
+    protected $servicesServiceInterface;
 
-    public function __construct()
+    public function __construct(ServicesServiceInterface $servicesServiceInterface)
     {
-        $this->servicesServiceClass = new ServicesService();
+        $this->servicesServiceInterface = $servicesServiceInterface;
     }
 
     // Load index page with services list
-    public function index()
+    public function all()
     {
-        $services = $this->servicesServiceClass->showAll();
+        $services = $this->servicesServiceInterface->all();
         return view('services.index', ['services' => $services]);
     }
 
     // Load add service page
-    public function add(Request $request)
+    public function create(Request $request)
     {
+        $data = ['name' => $request->name];
+
         if ($request->isMethod('get')) {
             return view('services.add');
         } elseif ($request->isMethod('post')) {
-            $insertResponse = $this->servicesServiceClass->add($request);
+            $insertResponse = $this->servicesServiceInterface->create($data);
             if ($insertResponse == 'Service inserted') {
-                $services = $this->servicesServiceClass->showAll();
+                $services = $this->servicesServiceInterface->all();
                 return redirect('services')->with('services', $services);
             } else {
                 return redirect('error')->with('error', $insertResponse);
@@ -40,13 +43,16 @@ class ServicesController extends Controller
     // Load update service page
     public function edit(Request $request)
     {
+        $serviceId = $request->id;
+        $data = ['name' => $request->name];
+
         if ($request->isMethod('get')) {
-            $service = $this->servicesServiceClass->edit($request);
+            $service = $this->servicesServiceInterface->find($serviceId);
             return view('services.edit')->with('service', $service);
         } elseif ($request->isMethod('post')) {
-            $updateResponse = $this->servicesServiceClass->edit($request);
+            $updateResponse = $this->servicesServiceInterface->edit($data, $serviceId);
             if ($updateResponse == 'Service updated') {
-                $services = $this->servicesServiceClass->showAll();
+                $services = $this->servicesServiceInterface->all();
                 return redirect('services')->with('services', $services);
             } else {
                 return redirect('error')->with('error', $updateResponse);
@@ -57,9 +63,9 @@ class ServicesController extends Controller
     // Delete service and reload services list page
     public function delete($id)
     {
-        $deleteResponse = $this->servicesServiceClass->delete($id);
+        $deleteResponse = $this->servicesServiceInterface->delete($id);
         if ($deleteResponse == 'Service deleted') {
-            $services = $this->servicesServiceClass->showAll();
+            $services = $this->servicesServiceInterface->all();
             return redirect('services')->with('services', $services);
         } else {
             return redirect('error')->with('error', $deleteResponse);
