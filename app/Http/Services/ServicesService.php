@@ -2,78 +2,46 @@
 
 namespace App\Http\Services;
 
-use App\Http\Models\Service;
-use App\Http\Models\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ServicesService
-{
-    protected $serviceModel;
-    protected $ruleModel;
+use App\Http\Interfaces\ServicesServiceInterface;
+use App\Http\Interfaces\ServiceRepositoryInterface;
 
-    public function __construct()
+class ServicesService implements ServicesServiceInterface
+{
+    public function __construct(ServiceRepositoryInterface $serviceRepositoryInterface)
     {
-        $this->serviceModel = new Service();
-        $this->ruleModel = new Rule();
+        $this->serviceRepositoryInterface = $serviceRepositoryInterface;
     }
 
     // Get all services
-    public function showAll()
+    public function all()
     {
-        $services = $this->serviceModel->all();
-        return $services;
+        return $services = $this->serviceRepositoryInterface->all();
+    }
+
+    // Get hotel by id
+    public function find($id)
+    {
+        return $this->serviceRepositoryInterface->find($id);
     }
 
     // Add service
-    public function add(Request $request)
+    public function create(array $data)
     {
-        try {
-            $this->serviceModel->name = $request->name;
-            $this->serviceModel->save();
-            return 'Service inserted';
-        } catch (\Throwable $th) {
-            return $th;
-        }
+        return $this->serviceRepositoryInterface->create($data);
     }
 
     // Update service
-    public function edit(Request $request)
+    public function edit(array $data, $id)
     {
-        if ($request->isMethod('get')) {
-            $service = $this->serviceModel->find($request->id);
-            return $service;
-        } elseif ($request->isMethod('post')) {
-            try {
-                $service = $this->serviceModel->find($request->id);
-                $service->name = $request->name;
-                $service->save();
-                return 'Service updated';
-            } catch (\Throwable $th) {
-                return $th;
-            }
-        }
+        return $this->serviceRepositoryInterface->edit($data, $id);
     }
 
     // Delete service
     public function delete($id)
     {
-        try {
-            DB::beginTransaction();
-            $service = $this->serviceModel->find($id);
-            $rules = $service->load('rules');
-            foreach ($service->rules as $rule) {
-                $serviceRule = $this->ruleModel->find($rule->id);
-                $serviceRule->keywords()->detach();
-                $serviceRule->delete();
-            }
-            $service->delete();
-            DB::commit();
-            
-            return 'Service deleted';
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return $th;
-        }
+        return $this->serviceRepositoryInterface->delete($id);
     }
 }

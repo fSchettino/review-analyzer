@@ -2,128 +2,63 @@
 
 namespace App\Http\Services;
 
-use App\Http\Models\Rule;
-use App\Http\Services\ServicesService;
-use App\Http\Services\KeywordsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class RulesService
-{
-    protected $ruleModel;
-    protected $servicesServiceClass;
-    protected $keywordsServiceClass;
+use App\Http\Interfaces\RulesServiceInterface;
+use App\Http\Interfaces\RuleRepositoryInterface;
+use App\Http\Interfaces\ServicesServiceInterface;
+use App\Http\Interfaces\KeywordsServiceInterface;
 
-    public function __construct()
+class RulesService implements RulesServiceInterface
+{
+    protected $rulesRepositoryInterface;
+    protected $servicesServiceInterface;
+    protected $keywordsServiceInterface;
+
+    public function __construct(RuleRepositoryInterface $ruleRepositoryInterface, ServicesServiceInterface $servicesServiceInterface, KeywordsServiceInterface $keywordsServiceInterface)
     {
-        $this->ruleModel = new Rule();
-        $this->servicesServiceClass = new ServicesService();
-        $this->keywordsServiceClass = new KeywordsService();
+        $this->ruleRepositoryInterface = $ruleRepositoryInterface;
+        $this->servicesServiceInterface = $servicesServiceInterface;
+        $this->keywordsServiceInterface = $keywordsServiceInterface;
     }
 
     // Get all rules and relations
-    public function showAll()
+    public function all()
     {
-        $rules = $this->ruleModel->all()->load('keywords')->load('service');
-        return $rules;
+        return $this->ruleRepositoryInterface->all();
     }
 
     // Get rule by id
-    public function show($id)
+    public function find($id)
     {
-        $rule = $this->ruleModel->find($id)->load('keywords')->load('service');
-        return $rule;
+        return $this->ruleRepositoryInterface->find($id);
     }
 
     // Add rule
-    public function add(Request $request)
+    public function create(array $data)
     {
-        try {
-            DB::beginTransaction();
-            $this->ruleModel->service_id = $request->service;
-            $this->ruleModel->name = $request->name;
-            $this->ruleModel->save();
-
-            $positiveKeywords = $request->positiveKeywords;
-            $negativeKeywords = $request->negativeKeywords;
-
-            if (!$positiveKeywords==null) {
-                foreach ($positiveKeywords as $positiveKeyword) {
-                    $this->ruleModel->keywords()->attach($positiveKeyword);
-                };
-            };
-
-            if (!$negativeKeywords==null) {
-                foreach ($negativeKeywords as $negativeKeyword) {
-                    $this->ruleModel->keywords()->attach($negativeKeyword);
-                };
-            };
-            DB::commit();
-
-            return 'Rule inserted';
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return $th;
-        }
+        return $this->ruleRepositoryInterface->create($data);
     }
 
     // Update rule
-    public function edit(Request $request)
+    public function edit(array $data, $id)
     {
-        try {
-            DB::beginTransaction();
-            $rule = $this->ruleModel->find($request->id);
-            $rule->service_id = $request->service;
-            $rule->name = $request->name;
-            $rule->keywords()->detach();
-            $rule->save();
-
-            $positiveKeywords = $request->positiveKeywords;
-            $negativeKeywords = $request->negativeKeywords;
-
-            if (!$positiveKeywords==null) {
-                foreach ($positiveKeywords as $positiveKeyword) {
-                    $rule->keywords()->attach($positiveKeyword);
-                };
-            };
-
-            if (!$negativeKeywords==null) {
-                foreach ($negativeKeywords as $negativeKeyword) {
-                    $rule->keywords()->attach($negativeKeyword);
-                };
-            };
-            DB::commit();
-
-            return 'Rule updated';
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return $th;
-        }
+        return $this->ruleRepositoryInterface->edit($data, $id);
     }
 
     // Delete rule
     public function delete($id)
     {
-        try {
-            DB::beginTransaction();
-            $rule = $this->ruleModel->find($id);
-            $rule->keywords()->detach();
-            $rule->delete();
-            DB::commit();
-
-            return 'Rule deleted';
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return $th;
-        }
+        return $this->ruleRepositoryInterface->delete($id);
     }
 
     // Get all information to render rule add view
     public function getAddViewRuleData()
     {
-        $services = $this->servicesServiceClass->showAll();
-        $positiveKeywords = $this->keywordsServiceClass->getKeywordsByType('positive');
-        $negativeKeywords = $this->keywordsServiceClass->getKeywordsByType('negative');
+        $services = $this->servicesServiceInterface->all();
+        $positiveKeywords = $this->keywordsServiceInterface->getKeywordsByType('positive');
+        $negativeKeywords = $this->keywordsServiceInterface->getKeywordsByType('negative');
         return ['services' => $services, 'positiveKeywords' => $positiveKeywords, 'negativeKeywords' => $negativeKeywords];
     }
 }
