@@ -126,8 +126,6 @@ class CreateDatabase extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_resets');
         Schema::dropIfExists('hotel');
         Schema::dropIfExists('service');
         Schema::dropIfExists('review');
