@@ -2,6 +2,8 @@
 
 namespace App\Modules\Rule\Interfaces;
 
+use App\Modules\Shared\Interfaces\BaseInterface;
+
 interface RuleServiceInterface extends BaseInterface
 {
     public function all();

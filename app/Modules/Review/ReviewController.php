@@ -4,6 +4,7 @@ namespace App\Modules\Review;
 
 use Illuminate\Http\Request;
 
+use App\Modules\Shared\Controllers\Controller;
 use App\Modules\Review\Interfaces\ReviewServiceInterface;
 use App\Modules\Hotel\Interfaces\HotelServiceInterface;
 

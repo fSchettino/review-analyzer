@@ -4,6 +4,7 @@ namespace App\Modules\Hotel;
 
 use Illuminate\Http\Request;
 
+use App\Modules\Shared\Controllers\Controller;
 use App\Modules\Hotel\Interfaces\HotelServiceInterface;
 
 class HotelController extends Controller

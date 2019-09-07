@@ -4,6 +4,7 @@ namespace App\Modules\Keyword;
 
 use Illuminate\Http\Request;
 
+use App\Modules\Shared\Controllers\Controller;
 use App\Modules\Keyword\Interfaces\KeywordServiceInterface;
 
 class KeywordController extends Controller

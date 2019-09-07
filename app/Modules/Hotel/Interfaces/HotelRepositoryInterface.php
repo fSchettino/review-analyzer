@@ -2,6 +2,8 @@
 
 namespace App\Modules\Hotel\Interfaces;
 
+use App\Modules\Shared\Interfaces\BaseInterface;
+
 interface HotelRepositoryInterface extends BaseInterface
 {
     public function all();

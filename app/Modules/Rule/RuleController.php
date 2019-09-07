@@ -4,6 +4,7 @@ namespace App\Modules\Rule;
 
 use Illuminate\Http\Request;
 
+use App\Modules\Shared\Controllers\Controller;
 use App\Modules\Rule\Interfaces\RuleServiceInterface;
 use App\Modules\Service\Interfaces\ServiceServiceInterface;
 

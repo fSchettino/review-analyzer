@@ -2,6 +2,8 @@
 
 namespace App\Modules\Keyword\Interfaces;
 
+use App\Modules\Shared\Interfaces\BaseInterface;
+
 interface KeywordRepositoryInterface extends BaseInterface
 {
     public function all();
