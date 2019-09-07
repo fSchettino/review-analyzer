@@ -16,57 +16,57 @@ class AppServiceProvider extends ServiceProvider
     {
         // Hotel bindings
         $this->app->bind(
-            'App\Http\Interfaces\HotelsServiceInterface',
-            'App\Http\Services\HotelsService'
+            'App\Modules\Hotel\Interfaces\HotelServiceInterface',
+            'App\Modules\Hotel\HotelService'
         );
         
         $this->app->bind(
-            'App\Http\Interfaces\HotelRepositoryInterface',
-            'App\Http\Repositories\HotelRepository'
+            'App\Modules\Hotel\Interfaces\HotelRepositoryInterface',
+            'App\Modules\Hotel\HotelRepository'
         );
-        
+
         // Keyword bindings
         $this->app->bind(
-            'App\Http\Interfaces\KeywordsServiceInterface',
-            'App\Http\Services\KeywordsService'
+            'App\Modules\Keyword\Interfaces\KeywordServiceInterface',
+            'App\Modules\Keyword\KeywordService'
         );
         
         $this->app->bind(
-            'App\Http\Interfaces\KeywordRepositoryInterface',
-            'App\Http\Repositories\KeywordRepository'
+            'App\Modules\Keyword\Interfaces\KeywordRepositoryInterface',
+            'App\Modules\Keyword\KeywordRepository'
         );
 
         // Review bindings
         $this->app->bind(
-            'App\Http\Interfaces\ReviewsServiceInterface',
-            'App\Http\Services\ReviewsService'
+            'App\Modules\Review\Interfaces\ReviewServiceInterface',
+            'App\Modules\Review\ReviewService'
         );
 
         $this->app->bind(
-            'App\Http\Interfaces\ReviewRepositoryInterface',
-            'App\Http\Repositories\ReviewRepository'
+            'App\Modules\Review\Interfaces\ReviewRepositoryInterface',
+            'App\Modules\Review\ReviewRepository'
         );
 
         // Rule bindings
         $this->app->bind(
-            'App\Http\Interfaces\RulesServiceInterface',
-            'App\Http\Services\RulesService'
+            'App\Modules\Rule\Interfaces\RuleServiceInterface',
+            'App\Modules\Rule\RuleService'
         );
 
         $this->app->bind(
-            'App\Http\Interfaces\RuleRepositoryInterface',
-            'App\Http\Repositories\RuleRepository'
+            'App\Modules\Rule\Interfaces\RuleRepositoryInterface',
+            'App\Modules\Rule\RuleRepository'
         );
 
         // Service bindings
         $this->app->bind(
-            'App\Http\Interfaces\ServicesServiceInterface',
-            'App\Http\Services\ServicesService'
+            'App\Modules\Service\Interfaces\ServiceServiceInterface',
+            'App\Modules\Service\ServiceService'
         );
 
         $this->app->bind(
-            'App\Http\Interfaces\ServiceRepositoryInterface',
-            'App\Http\Repositories\ServiceRepository'
+            'App\Modules\Service\Interfaces\ServiceRepositoryInterface',
+            'App\Modules\Service\ServiceRepository'
         );
     }
 
