@@ -4,6 +4,7 @@ namespace App\Modules\Service;
 
 use Illuminate\Http\Request;
 
+use App\Modules\Shared\Controllers\Controller;
 use App\Modules\Service\Interfaces\ServiceServiceInterface;
 
 class ServiceController extends Controller
