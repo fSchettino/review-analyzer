@@ -20,7 +20,7 @@ class KeywordController extends Controller
     public function all()
     {
         $keywords = $this->keywordServiceInterface->all();
-        return view('keywords.index', ['keywords' => $keywords]);
+        return view('keywordView::index', ['keywords' => $keywords]);
     }
 
     // Load add keyword page
@@ -29,7 +29,7 @@ class KeywordController extends Controller
         $data = ['type' => $request->type, 'name' => $request->name, 'weight' => $request->weight];
 
         if ($request->isMethod('get')) {
-            return view('keywords.add');
+            return view('keywordView::add');
         } elseif ($request->isMethod('post')) {
             $insertResponse = $this->keywordServiceInterface->create($data);
             if ($insertResponse == 'Keyword inserted') {
@@ -49,7 +49,7 @@ class KeywordController extends Controller
 
         if ($request->isMethod('get')) {
             $keyword = $this->keywordServiceInterface->find($keywordId);
-            return view('keywords.edit')->with('keyword', $keyword);
+            return view('keywordView::edit')->with('keyword', $keyword);
         } elseif ($request->isMethod('post')) {
             $updateResponse = $this->keywordServiceInterface->edit($data, $keywordId);
             if ($updateResponse == 'Keyword updated') {

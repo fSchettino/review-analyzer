@@ -20,7 +20,7 @@ class ServiceController extends Controller
     public function all()
     {
         $services = $this->serviceServiceInterface->all();
-        return view('services.index', ['services' => $services]);
+        return view('serviceView::index', ['services' => $services]);
     }
 
     // Load add service page
@@ -29,7 +29,7 @@ class ServiceController extends Controller
         $data = ['name' => $request->name];
 
         if ($request->isMethod('get')) {
-            return view('services.add');
+            return view('serviceView::add');
         } elseif ($request->isMethod('post')) {
             $insertResponse = $this->serviceServiceInterface->create($data);
             if ($insertResponse == 'Service inserted') {
@@ -49,7 +49,7 @@ class ServiceController extends Controller
 
         if ($request->isMethod('get')) {
             $service = $this->serviceServiceInterface->find($serviceId);
-            return view('services.edit')->with('service', $service);
+            return view('serviceView::edit')->with('service', $service);
         } elseif ($request->isMethod('post')) {
             $updateResponse = $this->serviceServiceInterface->edit($data, $serviceId);
             if ($updateResponse == 'Service updated') {

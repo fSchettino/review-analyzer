@@ -23,7 +23,7 @@ class RuleController extends Controller
     public function all()
     {
         $rules = $this->ruleServiceInterface->all();
-        return view('rules.index', ['rules' => $rules]);
+        return view('ruleView::index', ['rules' => $rules]);
     }
 
     // Load add rule page
@@ -33,7 +33,7 @@ class RuleController extends Controller
         
         if ($request->isMethod('get')) {
             $getAddViewRuleData = $this->ruleServiceInterface->getAddViewRuleData();
-            return view('rules.add', ['services' => $getAddViewRuleData['services'], 'positiveKeywords' => $getAddViewRuleData['positiveKeywords'], 'negativeKeywords' => $getAddViewRuleData['negativeKeywords']]);
+            return view('ruleView::add', ['services' => $getAddViewRuleData['services'], 'positiveKeywords' => $getAddViewRuleData['positiveKeywords'], 'negativeKeywords' => $getAddViewRuleData['negativeKeywords']]);
         } elseif ($request->isMethod('post')) {
             $insertResponse = $this->ruleServiceInterface->create($data);
             if ($insertResponse == 'Rule inserted') {
@@ -54,7 +54,7 @@ class RuleController extends Controller
         if ($request->isMethod('get')) {
             $getAddViewRuleData = $this->ruleServiceInterface->getAddViewRuleData();
             $rule = $this->ruleServiceInterface->find($ruleId);
-            return view('rules.edit', ['rule' => $rule, 'services' => $getAddViewRuleData['services'], 'positiveKeywords' => $getAddViewRuleData['positiveKeywords'], 'negativeKeywords' => $getAddViewRuleData['negativeKeywords']]);
+            return view('ruleView::edit', ['rule' => $rule, 'services' => $getAddViewRuleData['services'], 'positiveKeywords' => $getAddViewRuleData['positiveKeywords'], 'negativeKeywords' => $getAddViewRuleData['negativeKeywords']]);
         } elseif ($request->isMethod('post')) {
             $updateResponse = $this->ruleServiceInterface->edit($data, $ruleId);
             if ($updateResponse == 'Rule updated') {

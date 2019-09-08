@@ -24,7 +24,7 @@ class ReviewController extends Controller
     {
         if ($request->isMethod('get')) {
             $hotelData = $this->hotelServiceInterface->find($request->hotelId);
-            return view('reviews.add', ['hotel' => $hotelData]);
+            return view('reviewView::add', ['hotel' => $hotelData]);
         } elseif ($request->isMethod('post')) {
             $data = ['hotelId' => $request->hotelId, 'title' => $request->title, 'description' => $request->description];
             $insertResponse = $this->reviewServiceInterface->create($data);

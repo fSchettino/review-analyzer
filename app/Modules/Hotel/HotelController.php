@@ -20,7 +20,7 @@ class HotelController extends Controller
     public function all()
     {
         $hotels = $this->hotelServiceInterface->all();
-        return view('hotels.index', ['hotels' => $hotels]);
+        return view('hotelView::index', ['hotels' => $hotels]);
     }
 
     // Load hotel detail page
@@ -28,7 +28,7 @@ class HotelController extends Controller
     {
         $hotelId = $request->id;
         $hotel = $this->hotelServiceInterface->find($hotelId);
-        return view('hotels.show', ['hotel' => $hotel]);
+        return view('hotelView::show', ['hotel' => $hotel]);
     }
 
     // Load add hotel page
@@ -38,7 +38,7 @@ class HotelController extends Controller
         
         if ($request->isMethod('get')) {
             $getAddViewHotelData = $this->hotelServiceInterface->getAddViewHotelData();
-            return view('hotels.add', ['services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
+            return view('hotelView::add', ['services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
         } elseif ($request->isMethod('post')) {
             $insertResponse = $this->hotelServiceInterface->create($data);
             if ($insertResponse == 'Hotel inserted') {
@@ -59,7 +59,7 @@ class HotelController extends Controller
         if ($request->isMethod('get')) {
             $hotel = $this->hotelServiceInterface->find($hotelId);
             $getAddViewHotelData = $this->hotelServiceInterface->getAddViewHotelData();
-            return view('hotels.edit', ['hotel' => $hotel, 'services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
+            return view('hotelView::edit', ['hotel' => $hotel, 'services' => $getAddViewHotelData['services'], 'rules' => $getAddViewHotelData['rules']]);
         } elseif ($request->isMethod('post')) {
             $updateResponse = $this->hotelServiceInterface->edit($data, $hotelId);
             if ($updateResponse == 'Hotel updated') {
