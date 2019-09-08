@@ -2,6 +2,10 @@
 
 Semantic review analisys software for hotels reviews.<br>
 
+## Key features:
+
+Feature first architecture, Service layer pattern, Repository pattern, Interfaces, Custom service provider, Module based resources and routing.
+
 ## Built With:
 
 PHP<br>
