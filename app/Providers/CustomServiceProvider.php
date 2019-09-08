@@ -78,5 +78,33 @@ class CustomServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        // Shared views folder namespace
+        $sharedViewsPath = __DIR__ . '/../Modules/Shared/Views';
+        $this->app['view']->addNamespace('sharedView', $sharedViewsPath);
+
+        // Index views folder namespace
+        $indexViewsPath = __DIR__ . '/../Modules/Index/Views';
+        $this->app['view']->addNamespace('indexView', $indexViewsPath);
+
+        // Hotel views folder namespace
+        $hotelViewsPath = __DIR__ . '/../Modules/Hotel/Views';
+        $this->app['view']->addNamespace('hotelView', $hotelViewsPath);
+
+        // Keyword views folder namespace
+        $keywordViewsPath = __DIR__ . '/../Modules/Keyword/Views';
+        $this->app['view']->addNamespace('keywordView', $keywordViewsPath);
+
+        // Review views folder namespace
+        $reviewViewsPath = __DIR__ . '/../Modules/Review/Views';
+        $this->app['view']->addNamespace('reviewView', $reviewViewsPath);
+
+        // Rule views folder namespace
+        $ruleViewsPath = __DIR__ . '/../Modules/Rule/Views';
+        $this->app['view']->addNamespace('ruleView', $ruleViewsPath);
+
+        // Service views folder namespace
+        $serviceViewsPath = __DIR__ . '/../Modules/Service/Views';
+        $this->app['view']->addNamespace('serviceView', $serviceViewsPath);
     }
 }
