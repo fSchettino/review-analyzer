@@ -3,39 +3,27 @@
     <div class="row">
         <div class="col-md-8">
             <h1>
-                Services List
+                Add Service
             </h1>
         </div>
         <div class="col-md-4">
-            <a class="btn btn-outline-primary float-right" href="{{ url('/service') }}" role="button">Add service</a>
+            <a class="btn btn-outline-primary float-right" href="{{ url('/services') }}" role="button">Back</a>
         </div>
     </div>
+    <!-- Start add form -->
     <div class="row margin-top-30">
-        <div class="col-md-12">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Service name</th>
-                        <th scope="col" colspan="2" class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($services as $service)
-                    <tr>
-                        <td>{{ $service['id'] }}</td>
-                        <td>{{ $service['name'] }}</td>
-                        <td>
-                            <a href="{{ url('/service/edit', $service['id']) }}"><i class="fas fa-edit"></i> Edit</a>
-                        </td>
-                        <td>
-                            <a href="{{ url('/service/delete', $service['id']) }}"><i class="fas fa-trash-alt"></i> Delete</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="col-md-8 col-sm-12">
+            <form method="post" action="{{ url('/service') }}">
+            @csrf
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" placeholder="e.g. Restaurant" id="name" name="name" required>
+                </div>
+                <a class="btn btn-outline-primary" href="{{ url('/services') }}" role="button">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
         </div>
     </div>
+    <!-- End add form -->
 </div>
 @endsection
