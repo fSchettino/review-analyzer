@@ -80,6 +80,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapModulesRoutes()
     {
+        Route::namespace('App\Modules\Index')
+             ->group(base_path('App\Modules\Index\IndexRouter.php'));
+     
         Route::namespace('App\Modules\Hotel')
              ->group(base_path('App\Modules\Hotel\HotelRouter.php'));
 
