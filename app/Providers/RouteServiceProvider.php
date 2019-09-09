@@ -81,21 +81,21 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapModulesRoutes()
     {
         Route::namespace('App\Modules\Index')
-             ->group(base_path('App\Modules\Index\IndexRouter.php'));
+             ->group(base_path('App/Modules/Index/IndexRouter.php'));
      
         Route::namespace('App\Modules\Hotel')
-             ->group(base_path('App\Modules\Hotel\HotelRouter.php'));
+             ->group(base_path('App/Modules/Hotel/HotelRouter.php'));
 
         Route::namespace('App\Modules\Keyword')
-             ->group(base_path('App\Modules\Keyword\KeywordRouter.php'));
+             ->group(base_path('App/Modules/Keyword/KeywordRouter.php'));
 
         Route::namespace('App\Modules\Review')
-             ->group(base_path('App\Modules\Review\ReviewRouter.php'));
+             ->group(base_path('App/Modules/Review/ReviewRouter.php'));
 
         Route::namespace('App\Modules\Rule')
-             ->group(base_path('App\Modules\Rule\RuleRouter.php'));
+             ->group(base_path('App/Modules/Rule/RuleRouter.php'));
 
         Route::namespace('App\Modules\Service')
-             ->group(base_path('App\Modules\Service\ServiceRouter.php'));
+             ->group(base_path('App/Modules/Service/ServiceRouter.php'));
     }
 }
