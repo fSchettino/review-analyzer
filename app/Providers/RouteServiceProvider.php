@@ -52,11 +52,11 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
-    
+
     /**
      * Define the "web" routes for the application.
      *
@@ -67,10 +67,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
-    
+
     /**
      * Define the routes for the application modules.
      *
@@ -81,21 +81,21 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapModulesRoutes()
     {
         Route::namespace('App\Modules\Index')
-             ->group(base_path('App/Modules/Index/IndexRouter.php'));
-     
+            ->group(base_path('app/Modules/Index/IndexRouter.php'));
+
         Route::namespace('App\Modules\Hotel')
-             ->group(base_path('App/Modules/Hotel/HotelRouter.php'));
+            ->group(base_path('app/Modules/Hotel/HotelRouter.php'));
 
         Route::namespace('App\Modules\Keyword')
-             ->group(base_path('App/Modules/Keyword/KeywordRouter.php'));
+            ->group(base_path('app/Modules/Keyword/KeywordRouter.php'));
 
         Route::namespace('App\Modules\Review')
-             ->group(base_path('App/Modules/Review/ReviewRouter.php'));
+            ->group(base_path('app/Modules/Review/ReviewRouter.php'));
 
         Route::namespace('App\Modules\Rule')
-             ->group(base_path('App/Modules/Rule/RuleRouter.php'));
+            ->group(base_path('app/Modules/Rule/RuleRouter.php'));
 
         Route::namespace('App\Modules\Service')
-             ->group(base_path('App/Modules/Service/ServiceRouter.php'));
+            ->group(base_path('app/Modules/Service/ServiceRouter.php'));
     }
 }
